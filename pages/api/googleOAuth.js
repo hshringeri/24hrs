@@ -15,6 +15,5 @@ export default function handler(req, res) {
 
     })
     console.log(url)
-    res.writeHead(302, { Location: url });
-    res.end();
+    res.redirect(url);
 }

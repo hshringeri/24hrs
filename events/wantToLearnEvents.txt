@@ -1,12 +1,11 @@
 
  Want to Learn Events
 All these events happen after 5 pm only
+.
 
-
-Read: Thinking, Fast and Slow by Daniel Kahneman (2-3 hours)
-Listen: Why We Forget Things: Slow Thinking with Daniel Kahneman | Hidden Brain Podcast (50 minutes)
-Watch: Learn Why Slow Thinking is So Important - TEDxIAE (12 minutes)
-
-Read: OAuth 2.0 Simplified by Aaron Parecki (2-3 hours)
-Listen: Simplifying OAuth and OpenID Connect with Aaron Parecki | Security Now Podcast (2 hours)
-Watch: OAuth 2.0 Basics - What You Need To Know (7 minutes)
+Produce Music:
+1. Take Online Classes: 2-4 hours per week 
+2. Read Music Production Books: 1 hour per day 
+3. Attend Workshops & Seminars: 3-5 hours per month 
+4. Watch Tutorials & Music Production Videos: 1 hour per day 
+5. Practice Editing & Mixing Music: 1-2 hours per day

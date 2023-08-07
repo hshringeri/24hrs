@@ -8,9 +8,7 @@ export const setWantLearnEvents = async (req, res) => {
     console.log("EEWERWERFWERWE")
     console.log(wantLearnEvents)
 
-    const prompt = wantLearnEvents + '\n For each numbered topic in the list suggest a book to read, podcast to listen to, and video to watch. ' +
-    'return results in this format for every topic (read/listen/watch) this (book/podcast/video) for each suggestion, one item per line. Dont add any other text but that. Dont add text like: Learn topic' + 
-    'if there are 3 items in the list, have book, podcast and video for each item. If three items, 9 mediums of learning should be suggested. Associate a time it will take to consume each event.'
+    const prompt = wantLearnEvents + '\n For each listed activity give 3 ways you can learn the skill, sport etc(books, podcasts, movies, or activities). Give a time allocation for each activity . List out the events like: event: time allocation'
     
     console.log(process.env.OPENAI_API_KEY)
     const wantLearnEventsExpanded = await axios.post('https://api.openai.com/v1/completions', {  

@@ -2,7 +2,8 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { Container, InputGroup, FormControl, Button, Row, Card, Col } from 'react-bootstrap'
-import CalendarLogo from '../../../images/calendar-icon-free-vector.jpeg'
+import CalendarLogo from '../../../images/minimalCalendar.jpeg'
+import { get } from 'http'
 
 export default function Home() {
     const [calendarData, setCalendarData] = useState(null)
@@ -34,7 +35,8 @@ export default function Home() {
     
     const getCalendar = async () => {
       try {
-        await getAuthToken();
+       const token = await getAuthToken();
+       console.log(token)
     
         const response = await fetch('/api/calendar');
         const data = await response.json();
@@ -157,25 +159,24 @@ export default function Home() {
 
   return (
     
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
+    <main className="font-mono flex min-h-screen flex-col items-center justify-between p-24 ">
+     
         <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
+          className="relative rounded-full dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
           src={CalendarLogo}
           alt="Next.js Logo"
-          width={180}
-          height={37}
+          width={350}
+          height={350}
           priority
         />
-      </div>
+        <br></br>
+      <h2 className="font-mono text-2xl"> maximize the time you have! </h2>
 
       {synced && (
-          <h1>calendar synced</h1>
+          <h2 className="font-mono">calendar synced</h2>
         )}
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-5 lg:text-left">
+      <div className="font-mono mb-32 grid text-center lg:mb-0 lg:grid-cols-5 lg:text-left">
 
         <Button
            onClick={getCalendar}
@@ -183,8 +184,8 @@ export default function Home() {
           //target="_blank"
           // rel="noopener noreferrer"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Access Google Calendar
+          <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+            access google calendar
           </h2>
         </Button>
 
@@ -194,8 +195,8 @@ export default function Home() {
           //target="_blank"
           // rel="noopener noreferrer"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Add Work To Do List
+          <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+            add work to do list
           </h2>
         </Button>
 
@@ -205,8 +206,8 @@ export default function Home() {
           //target="_blank"
           // rel="noopener noreferrer"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Add Need To Do List
+          <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+            add need to do list
           </h2>
         </Button>
 
@@ -216,8 +217,8 @@ export default function Home() {
           //target="_blank"
           // rel="noopener noreferrer"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Add Want To Learn List
+          <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+            add want to learn list
           </h2>
         </Button>
 
@@ -227,8 +228,8 @@ export default function Home() {
           //target="_blank"
           // rel="noopener noreferrer"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Add Want To Do
+          <h2  className=" fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+            Add want to do list
           </h2>
         </Button>
 
@@ -246,7 +247,7 @@ export default function Home() {
               id="note"
               name="note" 
               rows="20" cols="30" 
-              className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-green-700 placeholder:text-zinc-400"
+              className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-blue-700 placeholder:text-zinc-400"
               placeholder="Add work things to get done..."
               value={workEvents}
               onChange={(e) => setWorkEvents(e.target.value)}
@@ -272,7 +273,7 @@ export default function Home() {
               id="note"
               name="note" 
               rows="20" cols="30" 
-              className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-green-700 placeholder:text-zinc-400"
+              className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-blue-700 placeholder:text-zinc-400"
               placeholder="Add things you need to do : (get groceries, pick up son from camp, go to doctors)"
               value={needEvents}
               onChange={(e) => setNeedEvents(e.target.value)}
@@ -299,7 +300,7 @@ export default function Home() {
             id="note"
             name="note" 
             rows="20" cols="30" 
-            className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-green-700 placeholder:text-zinc-400"
+            className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-blue-700 placeholder:text-zinc-400"
             placeholder="Add things you want learn: (learn about a topic) "
             value={wantLearnEvents}
             onChange={(e) => setWantLearnEvents(e.target.value)}
@@ -322,7 +323,7 @@ export default function Home() {
             id="note"
             name="note" 
             rows="20" cols="30" 
-            className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-green-700 placeholder:text-zinc-400"
+            className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-blue-700 placeholder:text-zinc-400"
             placeholder="Add things you want do "
             value={wantDoEvents}
             onChange={(e) => setWantDoEvents(e.target.value)}

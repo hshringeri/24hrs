@@ -1,4 +1,6 @@
 
 Want to do Events
 All these events happen after 5 pm only
-1. Go hiking.
+ in this return statement
+
+Hiking: 3-4 hours
