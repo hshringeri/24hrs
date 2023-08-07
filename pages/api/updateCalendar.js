@@ -55,7 +55,7 @@ async function loadDocuments() {
         console.log(vectorStore)
         
         const model = new ChatOpenAI({
-            openAIApiKey: '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',
+            openAIApiKey: process.env.OPENAI_API_KEY,
             
         });
     
