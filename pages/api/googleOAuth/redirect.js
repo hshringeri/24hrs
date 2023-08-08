@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     const { tokens } = await oauth2Client.getToken(code)
     oauth2Client.setCredentials(tokens)
-
+    console.log(oauth2Client)
     fs.writeFileSync(path.resolve('./refreshToken.txt'), tokens.refresh_token )
 
     console.log("hi")

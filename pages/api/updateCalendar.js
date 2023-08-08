@@ -16,7 +16,7 @@ const directory = '/Users/hardh/projects/lifestyle-ai/events';
 
 console.log("hi")
 const embeddings = new OpenAIEmbeddings({
-    openAIApiKey: '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'
+    openAIApiKey: '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'
 })
 
 const combineFiles = new Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ async function loadDocuments() {
         console.log(vectorStore)
         
         const model = new ChatOpenAI({
-            openAIApiKey: process.env.OPENAI_API_KEY,
+            openAIApiKey: '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',
             
         });
     

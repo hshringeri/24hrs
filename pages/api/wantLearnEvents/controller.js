@@ -8,7 +8,7 @@ export const setWantLearnEvents = async (req, res) => {
     console.log("EEWERWERFWERWE")
     console.log(wantLearnEvents)
 
-    const prompt = wantLearnEvents + '\n For each listed activity give 3 ways you can learn the skill, sport etc(books, podcasts, movies, or activities). Give a time allocation for each activity . List out the events like: event: time allocation'
+    const prompt = wantLearnEvents + '\n For each provided topic, please recommend a medium relevant to that subject. If I want to learn a technical skill recommend a book or multiple videos. For each topic suggest 3 hours worth of suggestions. If a book takes three hours, only suggest the book. Note that I am based in the Bay Area for activity recommendations. For each suggestion, format it as: event: time allocation.'
     
     console.log(process.env.OPENAI_API_KEY)
     const wantLearnEventsExpanded = await axios.post('https://api.openai.com/v1/completions', {  

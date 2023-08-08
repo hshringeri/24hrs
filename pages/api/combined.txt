@@ -1,39 +1,46 @@
 Current Calendar 
-2023-07-31T14:00:00-07:00 to 2023-07-31T16:00:00-07:00  -   meeting with payments
-2023-08-01T09:00:00-07:00 to 2023-08-01T09:30:00-07:00  -   standup 
-2023-08-01T11:30:00-07:00 to 2023-08-01T13:30:00-07:00  -   high intensity work
-2023-08-02T09:00:00-07:00 to 2023-08-02T09:30:00-07:00  -   standup 
-2023-08-02T11:30:00-07:00 to 2023-08-02T13:30:00-07:00  -   high intensity work
-2023-08-02T14:00:00-07:00 to 2023-08-02T16:00:00-07:00  -   meeting with payments
-2023-08-03T09:00:00-07:00 to 2023-08-03T09:30:00-07:00  -   standup 
-2023-08-03T11:30:00-07:00 to 2023-08-03T13:30:00-07:00  -   high intensity work
-2023-08-04T09:00:00-07:00 to 2023-08-04T09:30:00-07:00  -   standup 
-2023-08-04T11:30:00-07:00 to 2023-08-04T13:30:00-07:00  -   high intensity work
-2023-08-04T14:00:00-07:00 to 2023-08-04T16:00:00-07:00  -   meeting with payments
-2023-08-07T09:00:00-07:00 to 2023-08-07T09:30:00-07:00  -   standup 
-2023-08-07T11:30:00-07:00 to 2023-08-07T13:30:00-07:00  -   high intensity work
-2023-08-07T14:00:00-07:00 to 2023-08-07T16:00:00-07:00  -   meeting with payments
+2023-08-08T09:00:00-07:00 to 2023-08-08T09:30:00-07:00  -   standup 
+2023-08-08T11:30:00-07:00 to 2023-08-08T13:30:00-07:00  -   high intensity work
+2023-08-09T09:00:00-07:00 to 2023-08-09T09:30:00-07:00  -   standup 
+2023-08-09T11:30:00-07:00 to 2023-08-09T13:30:00-07:00  -   high intensity work
+2023-08-09T14:00:00-07:00 to 2023-08-09T16:00:00-07:00  -   meeting with payments
+2023-08-10T09:00:00-07:00 to 2023-08-10T09:30:00-07:00  -   standup 
+2023-08-10T11:30:00-07:00 to 2023-08-10T13:30:00-07:00  -   high intensity work
+2023-08-11T09:00:00-07:00 to 2023-08-11T09:30:00-07:00  -   standup 
+2023-08-11T11:30:00-07:00 to 2023-08-11T13:30:00-07:00  -   high intensity work
+2023-08-11T14:00:00-07:00 to 2023-08-11T16:00:00-07:00  -   meeting with payments
+2023-08-14T09:00:00-07:00 to 2023-08-14T09:30:00-07:00  -   standup 
+2023-08-14T11:30:00-07:00 to 2023-08-14T13:30:00-07:00  -   high intensity work
+2023-08-14T14:00:00-07:00 to 2023-08-14T16:00:00-07:00  -   meeting with payments
 
 
 Need Events
-All these events happen after 5 pm on Monday to Friday. On weeekends any time is fine.
-1. Get groceries from walmart.
-2. Get birthday cake for sister.
-3. Work on personal projects throughout week.
+All these events happen after 5 pm only
+1. Go to Walmart.
+2. Clean the house.
 
 
 Want to do Events
-All these events happen after 5 pm on Monday to Friday. On weeekends any time is fine.
-3. Go skiing over weekend.
+All these events happen after 5 pm only
+
+
+Hiking: 3 hours
 
  Want to Learn Events
-All these events happen after 5 pm on Monday to Friday. On weeekends any time is fine.
+All these events happen after 5 pm only
 
 
-Read: The Battle of New Orleans: Andrew Jackson and America's First Military Victory by Robert V. Remini (est. 2 hours) 
-Listen: History of 1812 Podcast (est. 12 mins/episode)
-Watch: The War of 1812: Turning Point of America's History, documentary (est. 2 hrs)
+OAuth: 
+Book: "Mastering OAuth 2.0" by Charles Bihis: 3 hours 
+Video: "Understanding OAuth 2.0" by Apigee: 1 hour 
+Video: "Introduction to OAuth2" by Derek Banas: 1 hour 
+Video: "Introduction to OAuth 2.0" by pluralsight.com: 1 hour 
 
-Read: Pickleball Fundamentals: Level I - The Basics by Brian Staub (est. 1.5 hours) 
-Listen: Pickleball 101 Podcast (est. 30 mins/episode)
-Watch: Pickleball Basics: How to Play Pickleball (est. 4 minutes)
+Surfing: 
+Activity: Surfing lesson with Aquatic Adventures in San Francisco: 2 hours 
+Video: "Learn to Surf" by Justin Quintal: 1 hour 
+Video: "Beginners Surf Lesson in Maui" by Earth Fare: 1 hour
+
+Work Events
+Add these events from 9 am - 5 pm only
+1. Meet with interns twice this week.

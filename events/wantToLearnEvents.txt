@@ -1,11 +1,15 @@
 
  Want to Learn Events
 All these events happen after 5 pm only
-.
 
-Produce Music:
-1. Take Online Classes: 2-4 hours per week 
-2. Read Music Production Books: 1 hour per day 
-3. Attend Workshops & Seminars: 3-5 hours per month 
-4. Watch Tutorials & Music Production Videos: 1 hour per day 
-5. Practice Editing & Mixing Music: 1-2 hours per day
+
+OAuth: 
+Book: "Mastering OAuth 2.0" by Charles Bihis: 3 hours 
+Video: "Understanding OAuth 2.0" by Apigee: 1 hour 
+Video: "Introduction to OAuth2" by Derek Banas: 1 hour 
+Video: "Introduction to OAuth 2.0" by pluralsight.com: 1 hour 
+
+Surfing: 
+Activity: Surfing lesson with Aquatic Adventures in San Francisco: 2 hours 
+Video: "Learn to Surf" by Justin Quintal: 1 hour 
+Video: "Beginners Surf Lesson in Maui" by Earth Fare: 1 hour
