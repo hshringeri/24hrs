@@ -7,7 +7,6 @@ export default function handler(req, res) {
      switch(method) {
          case 'GET':
              getCalendar(req, res)
-             console.log("we dem bys")
              break
          case 'POST':
              res.status(200).json({method, name: 'POST Request'})

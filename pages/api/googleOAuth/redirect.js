@@ -24,13 +24,5 @@ export default async function handler(req, res) {
     res.statusCode = 302;
     res.end();
 
-
-    // res.send({
-    //     msg: "You have logged in"
-    // })
-
-    // window.location.href='/calendar'
-
-    //res.json(token)
-
 }
+
