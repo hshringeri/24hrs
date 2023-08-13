@@ -1,4 +1,4 @@
-import { setWantLearnEvents } from './controller'
+import { setEvents } from './controller'
 
 
 export default function handler(req, res) {
@@ -7,12 +7,10 @@ export default function handler(req, res) {
      switch(method) {
          case 'GET':
             res.status(200).json({method, name: 'GET Request'})
-             console.log("we dem bys")
              break
          case 'POST':
             console.log("hello")
-            setWantLearnEvents(req, res)
-            console.log("we dem bys")
+            setEvents(req, res)
              break
          case 'PUT':
              res.status(200).json({method, name: 'PUT Request'})

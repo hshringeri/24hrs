@@ -14,6 +14,7 @@ export default function Login() {
   const router = useRouter();
 
    const { user, error, isLoading } = useUser();
+
    if (isLoading) console.log("loading");
    if (error) return <div>{error.message}</div>;
    useEffect(() => {
