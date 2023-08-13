@@ -10,7 +10,7 @@ const event3 = "study for my OS midterm"
 const event4 = "make dinner every day"
 
 const configuration = new Configuration({
-    apiKey: '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',
+    apiKey: process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
 

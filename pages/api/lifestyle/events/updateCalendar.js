@@ -8,7 +8,7 @@ const OpenAIEmbeddings = require("langchain/embeddings/openai").OpenAIEmbeddings
 const RetrievalQAChain = require("langchain/chains").RetrievalQAChain
 
 const embeddings = new OpenAIEmbeddings({
-    openAIApiKey: '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',
+    openAIApiKey: process.env.OPENAI_API_KEY,
 })
 
 
@@ -21,7 +21,7 @@ export async function loadDocuments(events) {
         const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
         
         const model = new ChatOpenAI({
-            openAIApiKey: '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',
+            openAIApiKey: process.env.OPENAI_API_KEY,
             
         });
     
