@@ -9,8 +9,11 @@ export default function handler(req, res) {
             res.status(200).json({method, name: 'GET Request'})
              break
          case 'POST':
-            console.log("hello")
-            setEvents(req, res)
+            console.log("you aaaaa")
+             const events = setEvents(req, res)
+             if (typeof events === Error) {
+                res.status(500).json({method, name: 'eventflow hallucinated.'})
+             }
              break
          case 'PUT':
              res.status(200).json({method, name: 'PUT Request'})

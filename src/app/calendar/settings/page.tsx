@@ -11,7 +11,6 @@ export default function Settings() {
   const [sleepHours, setSleepHours] = useState("")
   const [lunchTime, setLunchTime] = useState("")
   const [dinnerTime, setDinnerTime] = useState("")
-  const [other, setOther] = useState("")
 
   const router = useRouter();
   const searchParams = useSearchParams()
@@ -25,18 +24,39 @@ export default function Settings() {
     return <div>Loading...</div>;
   }
 
-  function onSumbit() {
+  async function onSubmit() {
     const settings = {
         proffesion: proffesion,
         workHours: workHours,
         sleepHours: sleepHours,
         lunchTime: lunchTime,
-        dinnerTime: dinnerTime,
-        other: other
+        dinnerTime: dinnerTime
+    }
+
+    const settingsData = {
+        settings: settings,
+        userSid: userSid
+    }
+
+    try {
+        const response = await fetch('api/calendar/settings', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(settingsData)
+        });
+
+        if(response.ok) {
+            const result = await response.json();
+            console.log(result);
+        } else {
+            console.error("Failed to update settings:", response.statusText);
+        }
+    } catch (error) {
+        console.error("There was an error sending the PUT request:", error);
     }
   }
-
-
 
   return (
     <div className="min-h-screen bg-gray-400 text-gray-700 font-mono">
@@ -48,7 +68,7 @@ export default function Settings() {
 
         <div className="flex flex-col space-y-4"> {/* This sets the direction to column and space between items to 1rem */}
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <h1 className="flex-shrink-0 mr-4"> proffesion:</h1>
+                <h1 className="flex-shrink-0 mr-4"> profession:</h1>
                 <input className="px-2 py-1 max-w-xs sm:px-5 sm:py-3 flex-1 text-gray-700 bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-[1px] focus:ring-blue-700"
                     placeholder="Enter hours"
                     onBlur={(e: any)=> {setProffesion(e)}}
@@ -79,25 +99,15 @@ export default function Settings() {
                 <h1 className="flex-shrink-0 mr-4">dinner time:</h1>
                 <input className="px-2 py-1 max-w-xs sm:px-5 sm:py-3 flex-1 text-gray-700 bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-[1px] focus:ring-blue-700"
                     placeholder="Enter hours"
+                    onBlur={(e: any)=> {setDinnerTime(e)}}
                 />
             </div>
-            <form id="need" className="flex">  {/* Add the "flex" and "items-center" classes */}
-                <h1 className="flex-shrink-0 mr-4">other stuff:</h1>
-                <textarea 
-                    id="note"
-                    name="note" 
-                    rows="20" cols="30" 
-                    className="px-2 py-1 max-w-xs sm:px-5 sm:py-3 flex-1 text-gray-700 bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-[1px] focus:ring-blue-700"
-                    placeholder="other stuff"
-                >
-                </textarea>
-            </form>
+           
 
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-            <Button>submit</Button>
-            
+            <Button onClick={onSubmit}>submit</Button> 
         </div>
 
 

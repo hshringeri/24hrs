@@ -1,7 +1,8 @@
-import { Schema, models, model } from 'mongoose'
+import pkg from 'mongoose';
+const { Schema, models, model } = pkg;
 
 const userRefreshTokenSchema = new Schema({
-    userSid: {
+  userId: {
       type: String,
       required: true,
       unique: true
@@ -12,5 +13,5 @@ const userRefreshTokenSchema = new Schema({
     }
   });
   
-export const UserRefreshToken = mongoose.model('UserRefreshToken', userRefreshTokenSchema);
+export const UserRefreshToken = models.userRefreshToken || model("userRefreshToken", userRefreshTokenSchema, "userRefreshTokens")
 

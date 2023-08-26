@@ -1,5 +1,5 @@
-const { Configuration, OpenAIApi } = require("openai");
-import { loadDocuments }from './updateCalendar'
+import { Configuration, OpenAIApi } from "openai";
+import {getCalendarData, getOpenSlots} from "./timeSlots.js"
 
 const axios = require("axios");    // For making HTTP requests.
 
@@ -14,33 +14,56 @@ const configuration = new Configuration({
   });
   const openai = new OpenAIApi(configuration);
 
-export async function addEvent(event) {
+export async function addEvent(event, userSid) {
     const eventType = await determineEventType(event)
     
     if (eventType ===  'errand/chore') {
         console.log("1")
         const events = await handleSimpleEvent(event)
-        console.log(events)
-        const scheduledEvents = await loadDocuments(events)
-        return scheduledEvents;
+        if (typeof events == Error) {
+            return events
+        }
+        const newEvents = getOpenSlots("2023-08-24T00:00:00-07:00", "2023-09-01T00:00:00-07:00", events, userSid)
+        
+        return newEvents;
         
     }
-    if (eventType === 'learning event') {
+    if (eventType === 'project') {
         console.log("2")
-        const events = await handleLearningEvent(event)
+        const events = await handleProjectEvent(event)
         console.log(events);
-        const scheduledEvents = await loadDocuments(events)
-        return scheduledEvents;
+        if (typeof events == Error) {
+            return events
+        }
+        const newEvents = getOpenSlots( "2023-08-24T00:00:00-07:00", "2023-09-01T00:00:00-07:00", events, userSid)
+        
+        return newEvents;
+        
 
+    }
+    if (eventType === 'learning event') {
+        console.log("3")
+        const events = await handleLearningEvent(event)
+        if (typeof events == Error) {
+            return events
+        }
+    
+        const newEvents = getOpenSlots("2023-08-24T00:00:00-07:00", "2023-09-01T00:00:00-07:00", events, userSid)
+        
+        return newEvents;
+        
 
     }
     if (eventType === 'activity') {
-        console.log("3")
+        console.log("4")
         const events = await handleSimpleEvent(event)
-        console.log(events)
-        const scheduledEvents = await loadDocuments(events)
-        return scheduledEvents;
-
+        if (events instanceof Error) {
+            return events
+        }
+        const newEvents = getOpenSlots( "2023-08-24T00:00:00-07:00", "2023-09-01T00:00:00-07:00", events, userSid)
+        
+        return newEvents;
+        
     }
     
 
@@ -64,11 +87,15 @@ async function determineEventType(event) {
                             },
                             isALearningEvent: {
                                 type: "boolean",
-                                description: "Does the event require a learning curve? (studying, learning, projects, writing, coding etc.)"
+                                description: "Does the event require a learning curve? (studying, learning etc.)"
                             },
                             isAnActivity: {
                                 type: "boolean",
                                 description: "Is the event an activity? (sports, video games, lunch, dinner, going to gym, exploring, fun things etc)"
+                            },
+                            isAProject: {
+                                type: "boolean",
+                                description: "Is the event a project?"
                             }
                         }
                     }
@@ -82,6 +109,7 @@ async function determineEventType(event) {
         const isErrandOrChore = JSON.parse(completionResponse).isErrandOrChore
         const isALearningEvent = JSON.parse(completionResponse).isALearningEvent
         const isAnActivity = JSON.parse(completionResponse).isAnActivity
+        const isAProject = JSON.parse(completionResponse).isAProject
 
 
 
@@ -89,6 +117,11 @@ async function determineEventType(event) {
             console.log(event)
             console.log('errand/chore')
             return 'errand/chore'
+        }
+        if (isAProject) {
+            console.log(event)
+            console.log('project')
+            return 'project'
         }
         if (isALearningEvent) {
             console.log(event)
@@ -102,12 +135,13 @@ async function determineEventType(event) {
         }
 
     } catch(err) {
-        console.log(err)
+        return Error(err)
     }
 }
 
 async function handleSimpleEvent(event) {
     const events = []
+    console.log("did u make it here 1")
     try {
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
@@ -128,7 +162,7 @@ async function handleSimpleEvent(event) {
                                 description: "Based on the content of the user prompted event, figure out how long this event on a daily basis"
                             },
                             days_per_week: {
-                                type: "string",
+                                type: "integer",
                                 description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
                             }
                         }
@@ -137,9 +171,17 @@ async function handleSimpleEvent(event) {
             ],
             function_call: "auto"
         })
-        const completionResponse = completion.data.choices[0].message.function_call.arguments;
-        events.push(JSON.parse(completionResponse))
+        console.log("did u make it here 2")
+        try {
+            const completionResponse = completion.data.choices[0].message.function_call.arguments;
+            console.log("did u make it here 3")
+            events.push(JSON.parse(completionResponse))
         return events
+        } catch(error) {
+            return Error(error)
+        }
+        
+        
     
     } catch(error) {
         if (error.response) {
@@ -149,6 +191,8 @@ async function handleSimpleEvent(event) {
             console.log(error.message);
             console.log(messages);
           }
+          console.log("did u make it here")
+          return Error(error)
         
     }
 
@@ -168,7 +212,7 @@ async function handleLearningEvent(event) {
                         properties: {
                             mediums: {
                                 type: "array",
-                                description: "Based on the content of the event, create a list of ways to learn/go about the what the user wants to do.",
+                                description: " Based on the content of the learning event, generate a list of distributed tasks to go about learning the topic.",
                                 items: {
                                     type: "string"
                                 }
@@ -207,7 +251,7 @@ async function handleLearningEvent(event) {
                                     description: "Based on the content of the user prompted event, figure out how long this event on a daily basis"
                                 },
                                 days_per_week: {
-                                    type: "string",
+                                    type: "integer",
                                     description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
                                 }
                             }
@@ -232,8 +276,92 @@ async function handleLearningEvent(event) {
             console.log(error.message);
 
         }
+        return Error(error)
     }
 }
+
+async function handleProjectEvent(event) {
+    try {
+        const completion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [{"role": "user", "content": event}],
+            functions: [
+                {
+                    name: "handleProjectEvent",
+                    description: "Create calendar events for learning events",
+                    parameters: {
+                        type: "object",
+                        properties: {
+                            mediums: {
+                                type: "array",
+                                description: " Based on the content of the project, generate a list of detailed distributed tasks to go about the project.",
+                                items: {
+                                    type: "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            function_call: "auto"
+        })
+
+        const completionResponse = completion.data.choices[0].message.function_call.arguments;
+        const mediums = JSON.parse(completionResponse).mediums
+
+        const events = [];
+
+        for (const medium of mediums) {
+            const prompt = event + ": " + medium;
+
+            const completion = await openai.createChatCompletion({
+                model: "gpt-3.5-turbo",
+                messages: [{"role": "user", "content": prompt}],
+                functions: [
+                    {
+                        name: "handleBrokenDownProjectEvents",
+                        description: "Create calendar events for errands or chores",
+                        parameters: {
+                            type: "object",
+                            properties: {
+                                event: {
+                                    type: "string",
+                                    description: "describe the task in a very detailed manner"
+                                },
+                                probable_duration: {
+                                    type: "string",
+                                    description: "Based on the content of the user prompted event, figure out how long this event on a daily basis"
+                                },
+                                days_per_week: {
+                                    type: "integer",
+                                    description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
+                                }
+                            }
+                        }
+                    }
+                ],
+                function_call: "auto"
+            });
+
+            const completionResponse = completion.data.choices[0].message.function_call.arguments;
+            events.push(JSON.parse(completionResponse));
+            
+        }
+        return events;
+
+    } catch (error) {
+        console.log(error)
+        if (error.response) {
+            console.log(error.response.status);
+            console.log(error.response.data);
+        } else {
+            console.log(error.message);
+
+        }
+        return Error(error)
+    }
+}
+
 
 
 //addEvent(event4)

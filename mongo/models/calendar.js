@@ -1,17 +1,18 @@
-import { Schema, models, model } from 'mongoose'
+import pkg from 'mongoose';
+const { Schema, models, model } = pkg;
 
-const calendar = new Schema({
+const calendarSchema = new Schema({
     userSid: {
       type: String,
       required: true,
       unique: true
     },
     calendar: {
-        type: Object,
+        type: Array,
     },
     settings: {
         type: Object,
     }
   });
   
-export const Calendar = mongoose.model('Calendar', calendar);
+export const Calendar = models.calendar || model('calendar', calendarSchema, 'calendars')

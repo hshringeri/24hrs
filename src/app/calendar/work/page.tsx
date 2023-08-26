@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Container, InputGroup, FormControl, Button, Row, Card, Col } from 'react-bootstrap'
 import WorkLogo from '../../../../images/work-neon.png'
 import { get } from 'http'
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Home() {
     const [calendarData, setCalendarData] = useState(null)
@@ -21,8 +21,8 @@ export default function Home() {
 
     console.log(wantLearnEvents)
 
-    const router = useRouter();
-    const userSid = router.query?.usersid;
+    const searchParams = useSearchParams()
+    const userSid = searchParams?.get('usersid')
 
   
     const getAuthToken = async () => {
@@ -227,7 +227,7 @@ export default function Home() {
               <textarea 
               id="note"
               name="note" 
-              rows="20" cols="30" 
+              rows={20} cols={30}
               className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-blue-700 placeholder:text-zinc-400"
               placeholder="Add work things to get done..."
               value={workEvents}
@@ -253,7 +253,7 @@ export default function Home() {
               <textarea 
               id="note"
               name="note" 
-              rows="20" cols="30" 
+              rows={20} cols={30}
               className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-blue-700 placeholder:text-zinc-400"
               placeholder="Add things you need to do : (get groceries, pick up son from camp, go to doctors)"
               value={needEvents}
@@ -280,7 +280,7 @@ export default function Home() {
             <textarea 
             id="note"
             name="note" 
-            rows="20" cols="30" 
+            rows={20} cols={30}
             className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-blue-700 placeholder:text-zinc-400"
             placeholder="Add things you want learn: (learn about a topic) "
             value={wantLearnEvents}
@@ -303,7 +303,7 @@ export default function Home() {
             <textarea 
             id="note"
             name="note" 
-            rows="20" cols="30" 
+            rows={20} cols={30}
             className="px-10 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-200 bg-zinc-800 focus:bg-black  focus:outline-none focus:ring-[1px] focus:ring-blue-700 placeholder:text-zinc-400"
             placeholder="Add things you want do "
             value={wantDoEvents}
