@@ -149,8 +149,10 @@ export default function Home() {
           <h2 className="font-mono">calendar synced</h2>
         )}
 
-      
-      
+      <div className=" font-mono text-2xl text-center mb-4 ">
+        <h1>Calendar</h1>
+      </div>
+
       <Calendar
         currentCalendar={currentCalendar}
       />
@@ -161,9 +163,9 @@ export default function Home() {
           <h2 className="font-mono">calendar synced</h2>
         )}
 
-  <div className="flex flex-col items-center  min-h-screen"> 
+  <div className=" items-center "> 
     <h2 className="font-mono text-2xl text-center mb-4">maximize the time you have!</h2>
-    <div className="font-mono mb-32 grid text-center lg:mb-0 lg:grid-cols-3 lg:text-left place-items-center">
+    <div className="font-mono mb-32 grid text-center lg:mb-0 lg:grid-cols-1 lg:text-left place-items-center">
         
         <Button
            onClick={goToLifestyle}
@@ -172,11 +174,11 @@ export default function Home() {
           // rel="noopener noreferrer"
         >
           <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-            LifeStyle Edition
+            schedule events !!
           </h2>
         </Button>
 
-        <Button
+        {/* <Button
            onClick={goToSchool}
            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
           //target="_blank"
@@ -196,7 +198,7 @@ export default function Home() {
           <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
             Work Edition
           </h2>
-        </Button>
+        </Button> */}
       <br></br>
         
       </div>

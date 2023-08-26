@@ -1,9 +1,6 @@
 'use client'
-import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Container, InputGroup, FormControl, Button, Row, Card, Col } from 'react-bootstrap'
-import LifeStyleLogo from '../../../../images/lifestyle-neon.png'
-import { get } from 'http'
 import { useRouter, useSearchParams } from 'next/navigation';
 import './Popup.css';
 import CalendarView from '../calendar'
@@ -18,7 +15,6 @@ export default function Home() {
     const searchParams = useSearchParams()
     const userSid = searchParams?.get('usersid')
     console.log(userSid)
-
 
     const handleAddEvents = async (e: any) => {
       e.preventDefault();
@@ -43,10 +39,6 @@ export default function Home() {
         }
     
         const data = await response.json();
-    
-        // Do something with the returned data
-        console.log(data)
-        console.log(data.data)
         setEventMap(data.data)
         setEvent("")
       } catch (error) {
@@ -54,7 +46,6 @@ export default function Home() {
       }
     }
 
-    
     useEffect(() => {
       const fetchCalendar = async () => {
         try {
@@ -100,7 +91,7 @@ export default function Home() {
         start: event.start,
         end: event.end
     }));
-    console.log(formattedEvents)
+
       try {
         const updatedEvents = fetch(`/api/calendar?userSid=${userSid}`, {
           method: 'PUT',
@@ -112,7 +103,6 @@ export default function Home() {
       } catch (error) {
 
       }
-
     }
 
   return (
@@ -162,26 +152,12 @@ export default function Home() {
               <Button onClick={() => updateEvents(eventMap)}> add to calendar </Button>
                   {showPopup && 
                     <Popup />
-                } 
-              
-               
+                }         
             </div>
           )}
-
-         
         </div>
-
-      </div>
-      
-        
-
-         
-       
-
+      </div> 
     </main>
   )}
 
     
-//   {showPopup && 
-//     <Popup />
-//  } 
