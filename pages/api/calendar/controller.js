@@ -48,7 +48,7 @@ export const getCalendar = async (req, res) => {
           events.map((event, i) => {
             const start = event.start.dateTime || event.start.date;
             const end = event.end.dateTime || event.end.date;
-            console.log(`${start} to ${end}  -   ${event.summary}`);
+  
             eventData += `${start} to ${end}  -   ${event.summary}\n`
             
             const title = event.summary
@@ -61,9 +61,7 @@ export const getCalendar = async (req, res) => {
             }
             updatedCalendar.push(calendarData)
           });
-          console.log(updatedCalendar)
           const upsertCalendar = await upsertUserCalendar(userSid, updatedCalendar)
-          console.log(upsertCalendar)
 
         
           const dirPath = path.resolve('./events');
@@ -91,7 +89,6 @@ export const getCalendar = async (req, res) => {
 }
 
 export const upsertUserCalendar = async (userSid, updatedCalendar) => {
-  console.log("checking")
   
   try {
       await Calendar.updateOne(
@@ -108,8 +105,6 @@ export const upsertUserCalendar = async (userSid, updatedCalendar) => {
 export const updateEvents = async (req, res) => {
   const newEvents = req.body
   const userSid = req.query.userSid
-  console.log("hi")
-  console.log(newEvents)
 
   try {
     for (let event of newEvents) {
