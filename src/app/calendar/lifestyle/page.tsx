@@ -1,8 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Container, InputGroup, FormControl, Button, Row, Card, Col } from 'react-bootstrap'
-import { useRouter, useSearchParams } from 'next/navigation';
+import {  Button } from 'react-bootstrap'
+import { useSearchParams } from 'next/navigation';
 import './Popup.css';
+import { ClipLoader } from 'react-spinners'
 import CalendarView from '../calendar'
 
 export default function Home() {
@@ -11,17 +12,21 @@ export default function Home() {
     const [viewEvents, setViewEvents] = useState(false)
     const [showPopup, setShowPopup] = useState(false);
     const [currentCalendar, setCurrentCalendar] = useState(null)
+    const [showLoadingComponent, setShowLoadingComponent] = useState(false)
   
     const searchParams = useSearchParams()
     const userSid = searchParams?.get('usersid')
     console.log(userSid)
 
+    console.log(showLoadingComponent)
     const handleAddEvents = async (e: any) => {
       e.preventDefault();
+      setViewEvents(false)
+      setShowLoadingComponent(true)
+
       const body = {
         events: event,
         userSid: userSid
-
       }
 
       try {
@@ -34,11 +39,13 @@ export default function Home() {
         });
         
         if (!response.ok) {
+          setShowLoadingComponent(false)
           setShowPopup(true);
           return
         }
     
         const data = await response.json();
+        setShowLoadingComponent(false)
         setEventMap(data.data)
         setEvent("")
       } catch (error) {
@@ -55,7 +62,7 @@ export default function Home() {
           }
           const data = await res.json();
           setCurrentCalendar(data)
-          console.log(data); // Just changed this from "hekki" to log the actual data
+          console.log(data);
         } catch (error) {
           console.error("Error fetching data:");
         }
@@ -70,6 +77,7 @@ export default function Home() {
     }, [eventMap])
 
     const Popup = () => {
+      setShowLoadingComponent(false)
       return (
         <div id="popup1">
           <div className="popup">
@@ -83,6 +91,11 @@ export default function Home() {
       </div>
       );
     }
+
+    const LoadingComponent = () => {
+      return <ClipLoader color={"#123abc"} loading={true} size={50} />;
+    }
+    
 
     const updateEvents = async (eventMap: any) => {
       setViewEvents(false)
@@ -104,6 +117,8 @@ export default function Home() {
 
       }
     }
+
+    
 
   return (
     
@@ -137,6 +152,11 @@ export default function Home() {
                       </div>
                       <br></br>
         </form>
+          {showLoadingComponent && (
+            <div className="items-center">
+              <LoadingComponent></LoadingComponent>
+            </div>
+          )}
           {viewEvents && (
             <div>
               {eventMap.map((event: any, index: number) => (
@@ -150,7 +170,7 @@ export default function Home() {
               ))}
 
               <Button onClick={() => updateEvents(eventMap)}> add to calendar </Button>
-                  {showPopup && 
+                {showPopup && 
                     <Popup />
                 }         
             </div>
