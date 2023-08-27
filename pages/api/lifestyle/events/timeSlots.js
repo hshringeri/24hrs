@@ -66,11 +66,8 @@ export const getOpenSlots = async (from, till, events, userSid) => {
                     
                     if (count === numberOfEvents) {
                         slotsAddedForDay = true
+                        break
                     }
-
-                    // if (slotsAddedForDay) {
-                    //     break;
-                    // }
 
                     currentTime.add(maxLength, 'hours');
                     i--; // re-check against the same appointment after slot increment
@@ -91,18 +88,18 @@ export const getOpenSlots = async (from, till, events, userSid) => {
             if (!slotsAddedForDay) {
                 while (currentTime.add(maxLength, 'hours').isBefore(moment(currentDay).add(endOfDay.hour(), 'hours').add(endOfDay.minute(), 'minutes')) && openSlots.length < days) {
                     openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() });
-                    console.log("added 2")
-                    //slotAddedForDay = true;
+                    console.log("added 2 for tje bois")
                     count += 1
                     currentTime.add(maxLength, 'hours');
                     
                     if (count === numberOfEvents) {
+                        console.log("we up in this bitch")
                         slotsAddedForDay = true
                     };
 
-                    // if (slotsAddedForDay) {
-                    //     break;
-                    // }
+                    if (slotsAddedForDay) {
+                        break;
+                    }
                 }
             }
 
