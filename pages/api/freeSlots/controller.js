@@ -1,114 +1,171 @@
 import moment from 'moment'
-import  connectMongo from '../../../mongo/connectMongo.js'
-import { getCalendarDataWithUserSid } from '../calendar/data/controller.js';
-
-
-const appointments = [
-    {
-        "title": "Team Meeting",
-        "start": "2023-08-21T08:30:00-07:00",
-        "end": "2023-08-21T09:30:00-07:00"
-    },
-    {
-        "title": "Brainstorming",
-        "start": "2023-08-21T11:00:00-07:00",
-        "end": "2023-08-21T12:30:00-07:00"
-    },
-    {
-        "title": "1-1 Meeting",
-        "start": "2023-08-21T14:30:00-07:00",
-        "end": "2023-08-21T15:30:00-07:00"
-    },
-    {
-        "title": "Review Session",
-        "start": "2023-08-22T09:00:00-07:00",
-        "end": "2023-08-22T10:00:00-07:00"
-    },
-    {
-        "title": "Client Call",
-        "start": "2023-08-22T12:00:00-07:00",
-        "end": "2023-08-22T13:00:00-07:00"
-    },
-    {
-        "title": "Project Planning",
-        "start": "2023-08-22T14:00:00-07:00",
-        "end": "2023-08-22T15:30:00-07:00"
-    },
-    {
-        "title": "Code Review",
-        "start": "2023-08-23T09:30:00-07:00",
-        "end": "2023-08-23T10:30:00-07:00"
-    },
-    {
-        "title": "Budget Review",
-        "start": "2023-08-23T11:30:00-07:00",
-        "end": "2023-08-23T12:30:00-07:00"
-    },
-    {
-        "title": "Training Session",
-        "start": "2023-08-23T15:00:00-07:00",
-        "end": "2023-08-23T16:00:00-07:00"
-    },
-    {
-        "title": "Stand-up",
-        "start": "2023-08-24T09:00:00-07:00",
-        "end": "2023-08-24T09:30:00-07:00"
-    }
-]
-
-
-function getOpenSlots(appointments, from, till, slotDuration = 1) {
-    const startOfDay = moment("08:00:00", "HH:mm:ss");
-    const endOfDay = moment("18:00:00", "HH:mm:ss");
-    const lunchStart = moment("12:00:00", "HH:mm:ss");
-    const lunchEnd = moment("13:00:00", "HH:mm:ss");
-
-    const sortedAppointments = appointments.sort((a, b) => moment(a.start).diff(moment(b.start)));
-    console.log(sortedAppointments)
-
-    let currentDay = moment(from);
-    let openSlots = [];
-
-    while (currentDay.isBefore(moment(till))) {
-        let currentTime = moment(currentDay).add(startOfDay.hour(), 'hours').add(startOfDay.minute(), 'minutes');
-
-        for (let i = 0; i < sortedAppointments.length; i++) {
-            const appointmentStart = moment(sortedAppointments[i].start);
-            const appointmentEnd = moment(sortedAppointments[i].end);
-
-            if (!appointmentStart.isSame(currentDay, 'day')) {
-                continue;  // Skip appointments that are not for the current day
-            }
-
-            if (currentTime.add(slotDuration, 'hours').isBefore(appointmentStart)) {
-                openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(slotDuration, 'hours').format() });
-                if (openSlots.length === 10) {
-                    return openSlots;
-                }
-                currentTime.add(slotDuration, 'hours');
-                i--; // re-check against the same appointment after slot increment
-            } else {
-                currentTime = appointmentEnd;
-            }
-
-            // Skip lunch time
-            if (currentTime.isSameOrAfter(lunchStart) && currentTime.isBefore(lunchEnd)) {
-                currentTime = lunchEnd;
-            }
-        }
-
-        // Check for slots after the last appointment of the day
-        while (currentTime.add(slotDuration, 'hours').isBefore(moment(currentDay).add(endOfDay.hour(), 'hours').add(endOfDay.minute(), 'minutes')) && openSlots.length < 10) {
-            openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(slotDuration, 'hours').format() });
-            currentTime.add(slotDuration, 'hours');
-        }
-
-        currentDay.add(1, 'days');
-    }
-
-    return openSlots.slice(0, 10);  // Return the first 10 slots (or fewer if there aren't 10 available)
+import { getCalendarDataWithUserSid } from '../../calendar/data/controller'
+export const getCalendarData = async (userSid) => {
+    //await connectMongo();
+    
 }
 
-const from = "2023-08-21T00:00:00-07:00";
-const till = "2023-08-24T00:00:00-07:00";
-console.log(getOpenSlots(appointments, from, till));
+export const getOpenSlots = async (from, till, events, userSid) => {
+    try {
+        console.log(events)
+        const appointments = await getCalendarDataWithUserSid(userSid)
+        console.log("over here")
+        console.log("we up")
+        const startOfDay = moment("09:00:00", "HH:mm:ss");
+        const endOfDay = moment("23:00:00", "HH:mm:ss");
+        const lunchStart = moment("12:00:00", "HH:mm:ss");
+        const lunchEnd = moment("13:00:00", "HH:mm:ss");
+        const dinnerStart = moment("20:00:00","HH:mm:ss")
+        const dinnerEnd = moment("21:00:00","HH:mm:ss")
+
+        const sortedAppointments = appointments.sort((a, b) => moment(a.start).diff(moment(b.start)));
+        console.log(sortedAppointments)
+        
+        let days = 0
+        let maxLength = Number.NEGATIVE_INFINITY
+        let numberOfEvents = 0
+
+        console.log(events)
+        for (let event of events) {
+            numberOfEvents += 1
+            days += event.days_per_week
+            const durationList = event.probable_duration.split(" ")
+            let durationNumber = parseInt(durationList[0])
+            const durationType = durationList[1]
+            if (durationType === 'minutes') {
+                durationNumber = durationNumber/60
+            }
+            maxLength = Math.max(maxLength, durationNumber)
+
+        }
+        console.log("days: " + days)
+        console.log(maxLength)
+        let currentDay = moment(from);
+        let openSlots = [];
+        console.log(numberOfEvents)
+        console.log(till)
+        while (currentDay.isBefore(moment(till))) {
+            let count = 0
+            let slotsAddedForDay = (count === numberOfEvents)
+            let currentTime = moment(currentDay).add(startOfDay.hour(), 'hours').add(startOfDay.minute(), 'minutes');
+
+            for (let i = 0; i < sortedAppointments.length && !slotsAddedForDay; i++) {
+                const appointmentStart = moment(sortedAppointments[i].start);
+                const appointmentEnd = moment(sortedAppointments[i].end);
+
+                if (!appointmentStart.isSame(currentDay, 'day')) {
+                    continue;  // Skip appointments that are not for the current day
+                }
+
+                if (currentTime.add(maxLength, 'hours').isBefore(appointmentStart)) {
+                    console.log("here")
+                    openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() });
+                    //slotAddedForDay = true;
+                    count += 1
+                    console.log("added")
+                    
+                    if (count === numberOfEvents) {
+                        slotsAddedForDay = true
+                    }
+
+                    // if (slotsAddedForDay) {
+                    //     break;
+                    // }
+
+                    currentTime.add(maxLength, 'hours');
+                    i--; // re-check against the same appointment after slot increment
+                } else {
+                    console.log("end")
+                    currentTime = appointmentEnd;
+                }
+                // Skip lunch time and dinner time
+                if (currentTime.isSameOrAfter(lunchStart) && currentTime.isBefore(lunchEnd)) {
+                    currentTime = lunchEnd;
+                }
+                if (currentTime.isSameOrAfter(dinnerStart) && currentTime.isBefore(dinnerEnd)) {
+                    currentTime = dinnerEnd;
+                }
+            }
+
+            // Check for slots after the last appointment of the day
+            if (!slotsAddedForDay) {
+                while (currentTime.add(maxLength, 'hours').isBefore(moment(currentDay).add(endOfDay.hour(), 'hours').add(endOfDay.minute(), 'minutes')) && openSlots.length < days) {
+                    openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() });
+                    console.log("added 2")
+                    //slotAddedForDay = true;
+                    count += 1
+                    currentTime.add(maxLength, 'hours');
+                    
+                    if (count === numberOfEvents) {
+                        slotsAddedForDay = true
+                    };
+
+                    // if (slotsAddedForDay) {
+                    //     break;
+                    // }
+                }
+            }
+
+            currentDay.add(1, 'days');
+            console.log("current day:")
+            console.log(currentDay)
+        }
+        console.log(openSlots)
+        const availableSlots = openSlots.slice(0, days);  // Return the first 10 slots (or fewer if there aren't 10 available)
+        console.log("available slots: " + availableSlots)
+        let newEvents = []
+        let index = 0
+        for (let i = 0; i < events.length; i++) {
+            const eventName = events[i].event
+            for (let j = 0; j < events[i].days_per_week; j++) {
+                const currIndex = index
+                console.log("Index:")
+                console.log(currIndex)
+                const currSlot = availableSlots[currIndex]
+                const start = currSlot.start
+
+                const hours = events[i].probable_duration.split(" ")[0]
+                const hoursNumber = parseInt(hours)
+                const end = moment(start).add(hoursNumber, 'hours').format();
+                const newEvent = {
+                    title: eventName,
+                    start: start,
+                    end: end
+                }
+                newEvents.push(newEvent)
+                index = index + 1
+
+            }
+        }
+        console.log(newEvents)
+         return newEvents
+
+    } catch (error) {
+        console.log(error)
+        return Error(error.message)
+    }
+    
+
+}
+
+// const calendar = getCalendarData("jMG_z1VYh6R0T1kfiqYm5DgSm-_YU6Sz")
+// console.log(calendar)
+const events = [
+    {
+      event: 'research',
+      probable_duration: '2 hours',
+      days_per_week: '3'
+    },
+    {
+        event: 'develop',
+        probable_duration: '4 hours',
+        days_per_week: '3'
+      },
+      {
+        event: 'test',
+        probable_duration: '2 hours',
+        days_per_week: '3'
+      }
+  ]
+//const slots = getOpenSlots("2023-08-21T00:00:00-07:00", "2023-08-28T00:00:00-07:00", events, "8kLml4Qj3WPz_bfiyia0pExtbb2l96nf")
+// console.log(slots)
