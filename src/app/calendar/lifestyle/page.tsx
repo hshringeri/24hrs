@@ -93,7 +93,7 @@ export default function Home() {
     }
 
     const LoadingComponent = () => {
-      return <ClipLoader color={"#123abc"} loading={true} size={50} />;
+      return <ClipLoader color={"white"} loading={true} size={50} />;
     }
     
 
@@ -153,7 +153,7 @@ export default function Home() {
                       <br></br>
         </form>
           {showLoadingComponent && (
-            <div className="items-center">
+            <div className="flex justify-center items-center ">
               <LoadingComponent></LoadingComponent>
             </div>
           )}
