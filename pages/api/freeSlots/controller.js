@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { getCalendarDataWithUserSid } from '../../calendar/data/controller'
+import { getCalendarDataWithUserSid } from '../calendar/data/controller.js'
 export const getCalendarData = async (userSid) => {
     //await connectMongo();
     
@@ -63,8 +63,10 @@ export const getOpenSlots = async (from, till, events, userSid) => {
                     //slotAddedForDay = true;
                     count += 1
                     console.log("added")
+                    console.log("count = " + count)
                     
-                    if (count === numberOfEvents) {
+                    if (count == numberOfEvents) {
+                        console.log("slots added for day is true")
                         slotsAddedForDay = true
                     }
 
@@ -91,12 +93,15 @@ export const getOpenSlots = async (from, till, events, userSid) => {
             if (!slotsAddedForDay) {
                 while (currentTime.add(maxLength, 'hours').isBefore(moment(currentDay).add(endOfDay.hour(), 'hours').add(endOfDay.minute(), 'minutes')) && openSlots.length < days) {
                     openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() });
-                    console.log("added 2")
+                    console.log("added ghsfgsdgfd 2")
                     //slotAddedForDay = true;
                     count += 1
                     currentTime.add(maxLength, 'hours');
                     
-                    if (count === numberOfEvents) {
+                    console.log("count = " + count)
+
+                    if (count == numberOfEvents) {
+                        console.log("slots added for day is true")
                         slotsAddedForDay = true
                     };
 
