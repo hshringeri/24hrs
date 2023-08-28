@@ -16,6 +16,14 @@ const configuration = new Configuration({
 
 export async function addEvent(event, userSid) {
     const eventType = await determineEventType(event)
+
+    const today = new Date();
+    const twoWeeksFromNow = new Date(today);
+    twoWeeksFromNow.setDate(today.getDate() + 14);
+
+    const formatDate = (date) => {
+    return date.toISOString();
+    };
     
     if (eventType ===  'errand/chore') {
         console.log("1")
@@ -23,7 +31,7 @@ export async function addEvent(event, userSid) {
         if (typeof events == Error) {
             return events
         }
-        const newEvents = getOpenSlots("2023-08-24T00:00:00-07:00", "2023-09-01T00:00:00-07:00", events, userSid)
+        const newEvents = getOpenSlots(formatDate(today), formatDate(twoWeeksFromNow), events, userSid)
         
         return newEvents;
         
@@ -35,7 +43,7 @@ export async function addEvent(event, userSid) {
         if (typeof events == Error) {
             return events
         }
-        const newEvents = getOpenSlots( "2023-08-24T00:00:00-07:00", "2023-09-01T00:00:00-07:00", events, userSid)
+        const newEvents = getOpenSlots(formatDate(today), formatDate(twoWeeksFromNow), events, userSid)
         
         return newEvents;
         
@@ -48,7 +56,7 @@ export async function addEvent(event, userSid) {
             return events
         }
     
-        const newEvents = getOpenSlots("2023-08-24T00:00:00-07:00", "2023-09-01T00:00:00-07:00", events, userSid)
+        const newEvents = getOpenSlots(formatDate(today), formatDate(twoWeeksFromNow), events, userSid)
         
         return newEvents;
         
@@ -60,7 +68,7 @@ export async function addEvent(event, userSid) {
         if (events instanceof Error) {
             return events
         }
-        const newEvents = getOpenSlots( "2023-08-24T00:00:00-07:00", "2023-09-01T00:00:00-07:00", events, userSid)
+        const newEvents = getOpenSlots(formatDate(today), formatDate(twoWeeksFromNow), events, userSid)
         
         return newEvents;
         

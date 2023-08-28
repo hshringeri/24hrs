@@ -39,8 +39,8 @@ export default function Home() {
         });
         
         if (!response.ok) {
-          setShowLoadingComponent(false)
           setShowPopup(true);
+          setShowLoadingComponent(false)
           return
         }
     
@@ -157,6 +157,9 @@ export default function Home() {
               <LoadingComponent></LoadingComponent>
             </div>
           )}
+          {showPopup && 
+              <Popup />
+          } 
           {viewEvents && (
             <div>
               {eventMap.map((event: any, index: number) => (
@@ -170,9 +173,7 @@ export default function Home() {
               ))}
 
               <Button onClick={() => updateEvents(eventMap)}> add to calendar </Button>
-                {showPopup && 
-                    <Popup />
-                }         
+                        
             </div>
           )}
         </div>

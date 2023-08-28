@@ -34,6 +34,7 @@ export const getOpenSlots = async (from, till, events, userSid) => {
             const durationType = durationList[1]
             if (durationType === 'minutes') {
                 durationNumber = durationNumber/60
+                console.log("duration in minutes: " + durationNumber)
             }
             maxLength = Math.max(maxLength, durationNumber)
 
@@ -122,15 +123,31 @@ export const getOpenSlots = async (from, till, events, userSid) => {
                 const start = currSlot.start
 
                 const hours = events[i].probable_duration.split(" ")[0]
-                const hoursNumber = parseInt(hours)
-                const end = moment(start).add(hoursNumber, 'hours').format();
-                const newEvent = {
-                    title: eventName,
-                    start: start,
-                    end: end
+                let probableDurationParts = events[i].probable_duration.split(" ");
+
+                if (probableDurationParts[1] == "hours" || probableDurationParts[1] == "hour") {
+                    const hoursNumber = parseInt(probableDurationParts[0]);
+                    const end = moment(start).add(hoursNumber, 'hours').format();
+                    const newEvent = {
+                        title: eventName,
+                        start: start,
+                        end: end
+                    }
+                    console.log("new Event: " + newEvent)
+                    newEvents.push(newEvent);
+
+                } else if (probableDurationParts[1] == "minutes") {
+                    const minutesNumber = parseInt(probableDurationParts[0]);
+                    const end = moment(start).add(minutesNumber, 'minutes').format();
+                    const newEvent = {
+                        title: eventName,
+                        start: start,
+                        end: end
+                    }
+                    newEvents.push(newEvent);
                 }
-                newEvents.push(newEvent)
                 index = index + 1
+                
 
             }
         }
