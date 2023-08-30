@@ -16,16 +16,9 @@ export const updateSettings = async (req, res) => {
         // Using userSid as the filter to match the desired calendar
         console.log("you are here 2")
         console.log(settings)
-
-        let updatedSettings = {}
-        for (let key in settings) {
-            if (settings[key] != "") {
-                updatedSettings[`settings.${key}`] = settings[key]
-            }
-        }
         const updatedCalendar = await Calendar.findOneAndUpdate(
             { userSid: userSid },
-            { $set: { settings: updatedSettings }},
+            { $set: { settings: settings }},
             { new: true, upsert: true }  // This option returns the updated document
         );
 

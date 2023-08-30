@@ -61,14 +61,13 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-400 text-gray-700 font-mono ">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-400 text-gray-700 font-mono space-y-12">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
             <BsFillGearFill className="text-8xl"/>
         </div>
 
-        <br></br>
-
-        <div className="flex flex-col space-y-4"> {/* This sets the direction to column and space between items to 1rem */}
+       
+        <div className="flex flex-col items-center justify-center space-y-24"> {/* This sets the direction to column and space between items to 1rem */}
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <h1 className="flex-shrink-0 mr-4"> profession:</h1>
                 <input className="px-2 py-1 max-w-xs sm:px-5 sm:py-3 flex-1 text-gray-700 bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-[1px] focus:ring-blue-700"
@@ -107,9 +106,16 @@ export default function Settings() {
            
 
         </div>
-
+      
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
             <Button onClick={onSubmit}>submit</Button> 
+        </div>
+
+        <div className=" items-center justify-center h-screen">
+            <br></br>
+            <h1 className="text-center">
+                When inputing times, put them down in this format: eg. work hours: 9 am - 5 pm. (follow spacing and caps +  you need the dash)
+            </h1>
         </div>
 
 
