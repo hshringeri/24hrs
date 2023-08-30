@@ -114,24 +114,35 @@ export default function Home() {
 
     
     
-    <main className="font-mono flex min-h-screen flex-col ">
+    <main className="font-mono flex min-h-screen flex-col border-2 rounded-lg">     
       {!loggedIn && (
         <Link href="/api/auth/login" className="font-mono fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
             login
         </Link>
       )}
       {loggedIn && (
-        <div className="flex justify-between">
+        <div className="font-mono mb-32 grid text-center lg:mb-0 lg:grid-cols-3 lg:text-left ">
                 <Button
-                onClick={getCalendar}
-                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                //target="_blank"
-                // rel="noopener noreferrer"
-                >
-                <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                    access google calendar
-                </h2>
+                  onClick={getCalendar}
+                  className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                  //target="_blank"
+                  // rel="noopener noreferrer"
+                  >
+                  <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                      access google calendar
+                  </h2>
                 </Button>
+
+                <Button
+                  onClick={goToLifestyle}
+                  className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                  //target="_blank"
+                  // rel="noopener noreferrer"
+                >
+                  <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                    schedule events
+                  </h2>
+              </Button>
 
                 <Button
                     onClick={goToSettings}
@@ -149,13 +160,14 @@ export default function Home() {
           <h2 className="font-mono">calendar synced</h2>
         )}
 
-      <div className=" font-mono text-2xl text-center mb-4 ">
-        <h1>Calendar</h1>
+
+      <div className=" font-mono text-1xl text-center mb-4 ">
+          <Calendar
+            currentCalendar={currentCalendar}
+          />
       </div>
 
-      <Calendar
-        currentCalendar={currentCalendar}
-      />
+      
         
         <br></br>
     
@@ -167,7 +179,7 @@ export default function Home() {
     <h2 className="font-mono text-2xl text-center mb-4">maximize the time you have!</h2>
     <div className="font-mono mb-32 grid text-center lg:mb-0 lg:grid-cols-1 lg:text-left place-items-center">
         
-        <Button
+        {/* <Button
            onClick={goToLifestyle}
            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
           //target="_blank"
@@ -176,7 +188,7 @@ export default function Home() {
           <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
             schedule events !!
           </h2>
-        </Button>
+        </Button> */}
 
         {/* <Button
            onClick={goToSchool}

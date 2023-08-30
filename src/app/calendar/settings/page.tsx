@@ -6,7 +6,7 @@ import { BsFillGearFill } from 'react-icons/bs'
 
 export default function Settings() {
 
-  const [proffesion, setProffesion] = useState("")
+  const [profession, setProfession] = useState("")
   const [workHours, setWorkHours] = useState("")
   const [sleepHours, setSleepHours] = useState("")
   const [lunchTime, setLunchTime] = useState("")
@@ -26,7 +26,7 @@ export default function Settings() {
 
   async function onSubmit() {
     const settings = {
-        proffesion: proffesion,
+        profession: profession,
         workHours: workHours,
         sleepHours: sleepHours,
         lunchTime: lunchTime,
@@ -39,7 +39,9 @@ export default function Settings() {
     }
 
     try {
-        const response = await fetch('api/calendar/settings', {
+        console.log("HIIIIII")
+        console.log(settingsData)
+        const response = await fetch('/api/calendar/settings', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,7 +61,7 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-400 text-gray-700 font-mono">
+    <div className="min-h-screen bg-gray-400 text-gray-700 font-mono ">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
             <BsFillGearFill className="text-8xl"/>
         </div>
@@ -71,35 +73,35 @@ export default function Settings() {
                 <h1 className="flex-shrink-0 mr-4"> profession:</h1>
                 <input className="px-2 py-1 max-w-xs sm:px-5 sm:py-3 flex-1 text-gray-700 bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-[1px] focus:ring-blue-700"
                     placeholder="Enter hours"
-                    onBlur={(e: any)=> {setProffesion(e)}}
+                    onBlur={(e: any)=> {setProfession(e.target.value)}}
                 />
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <h1 className="flex-shrink-0 mr-4">work hours:</h1>
                 <input className="px-2 py-1 max-w-xs sm:px-5 sm:py-3 flex-1 text-gray-700 bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-[1px] focus:ring-blue-700"
                     placeholder="Enter hours"
-                    onBlur={(e: any)=> {setWorkHours(e)}}
+                    onBlur={(e: any)=> {setWorkHours(e.target.value)}}
                 />
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <h1 className="flex-shrink-0 mr-4">sleep hours:</h1>
                 <input className="px-2 py-1 max-w-xs sm:px-5 sm:py-3 flex-1 text-gray-700 bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-[1px] focus:ring-blue-700"
                     placeholder="Enter hours"
-                    onBlur={(e: any)=> {setSleepHours(e)}}
+                    onBlur={(e: any)=> {setSleepHours(e.target.value)}}
                 />
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <h1 className="flex-shrink-0 mr-4">lunch time:</h1>
                 <input className="px-2 py-1 max-w-xs sm:px-5 sm:py-3 flex-1 text-gray-700 bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-[1px] focus:ring-blue-700"
                     placeholder="Enter hours"
-                    onBlur={(e: any)=> {setLunchTime(e)}}
+                    onBlur={(e: any)=> {setLunchTime(e.target.value)}}
                 />
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <h1 className="flex-shrink-0 mr-4">dinner time:</h1>
                 <input className="px-2 py-1 max-w-xs sm:px-5 sm:py-3 flex-1 text-gray-700 bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-[1px] focus:ring-blue-700"
                     placeholder="Enter hours"
-                    onBlur={(e: any)=> {setDinnerTime(e)}}
+                    onBlur={(e: any)=> {setDinnerTime(e.target.value)}}
                 />
             </div>
            

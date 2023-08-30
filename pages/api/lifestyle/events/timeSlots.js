@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { getCalendarDataWithUserSid } from '../../calendar/data/controller'
+import { getSettings } from '../../calendar/settings/controller'
 export const getCalendarData = async (userSid) => {
     //await connectMongo();
     
@@ -9,14 +10,28 @@ export const getOpenSlots = async (from, till, events, userSid) => {
     try {
         console.log(events)
         const appointments = await getCalendarDataWithUserSid(userSid)
-        console.log("over here")
-        console.log("we up")
-        const startOfDay = moment("09:00:00", "HH:mm:ss");
-        const endOfDay = moment("23:00:00", "HH:mm:ss");
-        const lunchStart = moment("12:00:00", "HH:mm:ss");
-        const lunchEnd = moment("13:00:00", "HH:mm:ss");
-        const dinnerStart = moment("20:00:00","HH:mm:ss")
-        const dinnerEnd = moment("21:00:00","HH:mm:ss")
+        const settings = await getSettings(userSid)
+        console.log("settings")
+        console.log(settings)
+
+        const [endOfDayTime, startOfDayTime] = convertTo24HourFormat(settings.sleepHours)
+        const [lunchStartTime, lunchEndTime] = convertTo24HourFormat(settings.lunchTime)
+        const [dinnerStartTime, dinnerEndTime] = convertTo24HourFormat(settings.dinnerTime)
+
+
+
+        const startOfDay = moment(startOfDayTime, "HH:mm:ss");
+        console.log(startOfDayTime)
+        console.log(startOfDay)
+        const endOfDay = moment(endOfDayTime, "HH:mm:ss");
+        console.log(endOfDay)
+        const lunchStart = moment(lunchStartTime, "HH:mm:ss");
+        console.log(lunchStart)
+        const lunchEnd = moment(lunchEndTime, "HH:mm:ss");
+        console.log(lunchEnd)
+        const dinnerStart = moment(dinnerStartTime,"HH:mm:ss")
+        console.log(dinnerStart)
+        const dinnerEnd = moment(dinnerEndTime,"HH:mm:ss")
 
         const sortedAppointments = appointments.sort((a, b) => moment(a.start).diff(moment(b.start)));
         console.log(sortedAppointments)
@@ -161,6 +176,34 @@ export const getOpenSlots = async (from, till, events, userSid) => {
     
 
 }
+
+function convertTo24HourFormat(timeString) {
+    const parts = timeString.split(' - ');
+  
+    const convertSingleTime = (time) => {
+      const [num, period] = time.split(' ');
+      console.log(num)
+      let hour = parseInt(num, 10);
+      console.log(hour)
+      if (period.toLowerCase() === 'pm' && hour !== 12) {
+        hour += 12;
+      }
+      if (period.toLowerCase() === 'am' && hour === 12) {
+        hour = 0;
+      }
+      return `${hour.toString().padStart(2, '0')}:00:00`;
+    };
+  
+    const startTime = convertSingleTime(parts[0]);
+    const endTime = convertSingleTime(parts[1]);
+  
+    return [startTime, endTime];
+  }
+  
+  // Test the function
+  const timeString = "9 am - 5 pm";
+  const [startTime, endTime] = convertTo24HourFormat(timeString);
+  
 
 // const calendar = getCalendarData("jMG_z1VYh6R0T1kfiqYm5DgSm-_YU6Sz")
 // console.log(calendar)
