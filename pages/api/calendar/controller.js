@@ -110,7 +110,7 @@ export const updateEvents = async (req, res) => {
     for (let event of newEvents) {
       await Calendar.updateMany(
           { userSid: userSid },
-          { $set: { calendar: event } },
+          { $push: { calendar: event } },
           { upsert: true }
       );
     }
