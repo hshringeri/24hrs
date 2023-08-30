@@ -125,6 +125,7 @@ export default function Home() {
     <main className="font-mono flex min-h-screen flex-col  ">
       <br></br>
       <h2>lifestyle edition</h2>
+      <h2 className='text-center'>must input calendar settings before using eventflow</h2>
        
       <div style={{ display: 'flex', justifyContent: 'center',width: '100%', marginTop: '100px'  }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '200px' }}>
@@ -173,11 +174,14 @@ export default function Home() {
               ))}
 
               <Button onClick={() => updateEvents(eventMap)}> add to calendar </Button>
+              
                         
             </div>
           )}
         </div>
+       
       </div> 
+      
     </main>
   )}
 
