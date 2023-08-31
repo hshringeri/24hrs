@@ -1,4 +1,4 @@
-import { getCalendar, updateEvents } from './controller'
+import { getCalendar, updateEvents, deleteCalendarEvent } from './controller'
 import  connectMongo from '../../../mongo/connectMongo.js'
 
 
@@ -13,20 +13,16 @@ export default async function handler(req, res) {
  
      switch(method) {
          case 'GET':
-            console.log("BADDDD")
-            console.log("heere")
-            console.log(req)
              getCalendar(req, res)
              break
          case 'POST':
              res.status(200).json({method, name: 'POST Request'})
              break
          case 'PUT':
-            console.log("put")
              updateEvents(req, res)
-             res.status(200).json({method, name: 'PUT Request'})
              break
          case 'DELETE':
+             deleteCalendarEvent(req, res)
              res.status(200).json({method, name: 'DELETE Request'})
              break
          default:

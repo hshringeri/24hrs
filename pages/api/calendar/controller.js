@@ -120,3 +120,21 @@ export const updateEvents = async (req, res) => {
   }
 
 }
+
+export const deleteCalendarEvent = async (req, res) => {
+  const newCalendar = req.body
+  const userSid = req.query.userSid
+
+  try {
+    console.log(newCalendar)
+    await Calendar.updateOne(
+      { userSid: userSid },
+      { $set: { calendar: newCalendar}},
+      { upsert: true }
+      )
+  } catch (error) {
+    console.log(error)
+    return Error(error)
+  }
+
+}

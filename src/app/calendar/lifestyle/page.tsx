@@ -4,7 +4,7 @@ import {  Button } from 'react-bootstrap'
 import { useSearchParams } from 'next/navigation';
 import './Popup.css';
 import { ClipLoader } from 'react-spinners'
-import CalendarView from '../calendar'
+import Calendar from '../calendar'
 
 export default function Home() {
     const [event, setEvent] = useState('');
@@ -114,6 +114,7 @@ export default function Home() {
           body: JSON.stringify(formattedEvents)
         })
       } catch (error) {
+        console.log(error)
 
       }
     }
@@ -127,15 +128,18 @@ export default function Home() {
       <h2>lifestyle edition</h2>
       <h2 className='text-center'>must input calendar settings before using eventflow</h2>
        
-      <div style={{ display: 'flex', justifyContent: 'center',width: '100%', marginTop: '100px'  }}>
+      <div style={{ display: 'flex', justifyContent: 'center',width: '100%', marginTop: '80px'  }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '200px' }}>
-                 <div><CalendarView 
+                 <div><Calendar 
                         currentCalendar={currentCalendar}
+                        userSid={userSid}
                       />  
                   </div>           
         </div>
 
         <div >
+        <br></br>
+        <br></br>
         <form id="wantDo" onSubmit={handleAddEvents}>
                       <div className="flex items-center ">
                           <textarea 

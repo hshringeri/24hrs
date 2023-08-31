@@ -7,6 +7,7 @@ import { BsFillGearFill } from 'react-icons/bs'
 import Calendar from '../src/app/calendar/calendar'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
+import './home.css'
 
 export default function Home() {
     const [calendarLoaded, setCalendarLoaded] = useState(true)
@@ -114,7 +115,7 @@ export default function Home() {
 
     
     
-    <main className="font-mono flex min-h-screen flex-col border-2 rounded-lg">     
+    <main className="font-mono flex min-h-screen flex-col rounded-lg">     
       {!loggedIn && (
         <Link href="/api/auth/login" className="font-mono fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
             login
@@ -161,9 +162,10 @@ export default function Home() {
         )}
 
 
-      <div className=" font-mono text-1xl text-center mb-4 ">
+      <div >
           <Calendar
             currentCalendar={currentCalendar}
+            userSid={userSid}
           />
       </div>
 
