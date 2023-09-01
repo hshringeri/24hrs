@@ -5,6 +5,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction'
 import './main.css'
 import { INITIAL_EVENTS, createEventId } from './event-utils'
+import { utcToZonedTime } from 'date-fns-tz';
+
+const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 
 
 interface Event {
@@ -30,11 +34,26 @@ const CalendarView: React.FC<CalendarViewProps> = ({ currentCalendar , userSid }
     setCalendar(currentCalendar)
   }, [currentCalendar])
 
+  function isTimeEqual(timeStr1: any, timeStr2: any) {
+    // Create Date objects from the input strings
+    const date1 = new Date(timeStr1);
+    const date2 = new Date(timeStr2);
+  
+    // Convert both dates to UTC time
+    const utc1 = date1.getTime();
+    const utc2 = date2.getTime();
+  
+    // Compare the UTC times
+    return utc1 === utc2;
+  }
+
   const removeEvent = async (title: any, start: any, end: any) => {
     console.log(start)
     console.log(end)
+
+  
     const newCalendar = calendar.filter((item: Event) => {
-      return !(item.title === title && item.start === start && item.end === end);
+      return !(item.title === title && isTimeEqual(item.start, start) && isTimeEqual(item.end, end));
     });
   
     console.log(newCalendar)
@@ -79,13 +98,32 @@ const CalendarView: React.FC<CalendarViewProps> = ({ currentCalendar , userSid }
     console.log(clickInfo)
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}' that starts at ${clickInfo.event.start} and ends at ${clickInfo.event.end}?`)) {
       clickInfo.event.remove();
-      const startTime = new Date(clickInfo.event.start)
-      const isoStartTime = startTime.toISOString()
-      const endTime = new Date(clickInfo.event.end)
-      const isoEndTime = endTime.toISOString()
+      const startTime = utcToZonedTime(clickInfo.event.start, localTimeZone);
+      console.log(startTime)
+      const isoStartTime = convertDateFormat(startTime)
+      console.log(isoStartTime)
+      const endTime = utcToZonedTime(clickInfo.event.end, localTimeZone);
+      console.log(endTime)
+      const isoEndTime = convertDateFormat(endTime)
+      console.log(isoEndTime)
       await removeEvent(clickInfo.event.title, isoStartTime, isoEndTime)
     }
-}
+  }
+
+  function convertDateFormat(dateStr: any) {
+    const date = new Date(dateStr);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  const isoString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}-05:00`;
+
+  return isoString
+  }
 
   async function handleDateSelect(selectInfo: { view: { calendar: any; }; startStr: any; endStr: any; allDay: any; }) {
     let title = prompt('Please enter a new title for your event')

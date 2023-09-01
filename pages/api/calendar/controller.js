@@ -126,6 +126,7 @@ export const deleteCalendarEvent = async (req, res) => {
   const userSid = req.query.userSid
 
   try {
+    console.log("trying to delete the calendar")
     console.log(newCalendar)
     await Calendar.updateOne(
       { userSid: userSid },
