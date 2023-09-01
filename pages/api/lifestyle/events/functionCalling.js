@@ -63,7 +63,6 @@ export async function addEvent(event, userSid) {
 
     }
     if (eventType === 'activity') {
-        console.log("4")
         const events = await handleSimpleEvent(event)
         if (events instanceof Error) {
             return events
@@ -104,6 +103,10 @@ async function determineEventType(event) {
                             isAProject: {
                                 type: "boolean",
                                 description: "Is the event a project?"
+                            },
+                            isHomework: {
+                                type: "boolean",
+                                description: "Is the event Homework?"
                             }
                         }
                     }
@@ -118,7 +121,7 @@ async function determineEventType(event) {
         const isALearningEvent = JSON.parse(completionResponse).isALearningEvent
         const isAnActivity = JSON.parse(completionResponse).isAnActivity
         const isAProject = JSON.parse(completionResponse).isAProject
-
+        const isHomework = JSON.parse(completionResponse).isHomework
 
 
         if (isErrandOrChore) {
@@ -140,6 +143,11 @@ async function determineEventType(event) {
             console.log(event)
             console.log('activity')
             return 'activity'
+        }
+        if (isHomework) {
+            console.log(event)
+            console.log('homework')
+            return 'homework'
         }
 
     } catch(err) {
@@ -173,7 +181,8 @@ async function handleSimpleEvent(event) {
                                 type: "integer",
                                 description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
                             }
-                        }
+                        },
+                        "required": ["event", "probable_duration", "days_per_week"]
                     }
                 }
             ],
@@ -262,7 +271,8 @@ async function handleLearningEvent(event) {
                                     type: "integer",
                                     description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
                                 }
-                            }
+                            },
+                            "required": ["event", "probable_duration", "days_per_week"]
                         }
                     }
                 ],
@@ -344,7 +354,8 @@ async function handleProjectEvent(event) {
                                     type: "integer",
                                     description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
                                 }
-                            }
+                            },
+                            "required": ["event", "probable_duration", "days_per_week"]
                         }
                     }
                 ],
