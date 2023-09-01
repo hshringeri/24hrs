@@ -123,7 +123,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ currentCalendar , userSid }
           height={"75vh"}
           editable={true}
           selectable={true}
-          eventClick={handleEventClick}
+          eventClick={handleEventClick as any}
           select={handleDateSelect}
           
           
