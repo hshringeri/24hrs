@@ -8,12 +8,14 @@ import Calendar from '../src/app/calendar/calendar'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import './home.css'
+import AddEvents from './addEvents';
 
 export default function Home() {
     const [calendarLoaded, setCalendarLoaded] = useState(true)
     const [currentCalendar, setCurrentCalendar] =  useState(null)
     const [synced, setSynced] = useState(false)
     const [loggedIn, setLoggedIn] = useState(false)
+    const [addEvents, setAddEvents] = useState(false)
 
     const router = useRouter();
     const searchParams = useSearchParams()
@@ -95,7 +97,7 @@ export default function Home() {
 
       
     const goToLifestyle = () => {
-      router.push(`calendar/lifestyle?usersid=${userSid}`)
+      window.scrollTo(0, window.innerHeight); 
     }
     const goToWork = () => {
       router.push(`calendar/work?usersid=${userSid}`)
@@ -125,11 +127,11 @@ export default function Home() {
         <div className="font-mono mb-32 grid text-center lg:mb-0 lg:grid-cols-3 lg:text-left ">
                 <Button
                   onClick={getCalendar}
-                  className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                  className="flex group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
                   //target="_blank"
                   // rel="noopener noreferrer"
                   >
-                  <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                  <h2  className="flex fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
                       access google calendar
                   </h2>
                 </Button>
@@ -180,39 +182,7 @@ export default function Home() {
   <div className=" items-center "> 
     <h2 className="font-mono text-2xl text-center mb-4">maximize the time you have!</h2>
     <div className="font-mono mb-32 grid text-center lg:mb-0 lg:grid-cols-1 lg:text-left place-items-center">
-        
-        {/* <Button
-           onClick={goToLifestyle}
-           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          //target="_blank"
-          // rel="noopener noreferrer"
-        >
-          <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-            schedule events !!
-          </h2>
-        </Button> */}
-
-        {/* <Button
-           onClick={goToSchool}
-           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          //target="_blank"
-          // rel="noopener noreferrer"
-        >
-          <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-            School Edition
-          </h2>
-        </Button>
-
-        <Button
-           onClick={goToWork}
-           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          //target="_blank"
-          // rel="noopener noreferrer"
-        >
-          <h2  className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-            Work Edition
-          </h2>
-        </Button> */}
+          <AddEvents/>   
       <br></br>
         
       </div>

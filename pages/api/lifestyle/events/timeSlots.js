@@ -8,7 +8,6 @@ export const getCalendarData = async (userSid) => {
 
 export const getOpenSlots = async (from, till, events, userSid) => {
     try {
-        console.log(events)
         const appointments = await getCalendarDataWithUserSid(userSid)
         const settings = await getSettings(userSid)
         console.log("settings")
@@ -21,16 +20,10 @@ export const getOpenSlots = async (from, till, events, userSid) => {
 
 
         const startOfDay = moment(startOfDayTime, "HH:mm:ss");
-        console.log(startOfDayTime)
-        console.log(startOfDay)
         const endOfDay = moment(endOfDayTime, "HH:mm:ss");
-        console.log(endOfDay)
         const lunchStart = moment(lunchStartTime, "HH:mm:ss");
-        console.log(lunchStart)
         const lunchEnd = moment(lunchEndTime, "HH:mm:ss");
-        console.log(lunchEnd)
         const dinnerStart = moment(dinnerStartTime,"HH:mm:ss")
-        console.log(dinnerStart)
         const dinnerEnd = moment(dinnerEndTime,"HH:mm:ss")
 
         const sortedAppointments = appointments.sort((a, b) => moment(a.start).diff(moment(b.start)));
@@ -40,7 +33,9 @@ export const getOpenSlots = async (from, till, events, userSid) => {
         let maxLength = Number.NEGATIVE_INFINITY
         let numberOfEvents = 0
 
+        console.log("Events:")
         console.log(events)
+
         for (let event of events) {
             numberOfEvents += 1
             days += event.days_per_week
@@ -57,6 +52,7 @@ export const getOpenSlots = async (from, till, events, userSid) => {
         console.log("days: " + days)
         console.log(maxLength)
         let currentDay = moment(from);
+        console.log("current day initially set: " + currentDay.format('YYYY-MM-DD HH:mm:ss'))
         let openSlots = [];
         console.log(numberOfEvents)
         console.log(till)
@@ -64,7 +60,7 @@ export const getOpenSlots = async (from, till, events, userSid) => {
             let count = 0
             let slotsAddedForDay = (count === numberOfEvents)
             let currentTime = moment(currentDay).add(startOfDay.hour(), 'hours').add(startOfDay.minute(), 'minutes');
-
+            console.log("current Time: " + currentTime.format('YYYY-MM-DD HH:mm:ss'))
             for (let i = 0; i < sortedAppointments.length && !slotsAddedForDay; i++) {
                 const appointmentStart = moment(sortedAppointments[i].start);
                 const appointmentEnd = moment(sortedAppointments[i].end);
@@ -72,13 +68,15 @@ export const getOpenSlots = async (from, till, events, userSid) => {
                 if (!appointmentStart.isSame(currentDay, 'day')) {
                     continue;  // Skip appointments that are not for the current day
                 }
-
+                
+                console.log("current time here: " + currentTime.format('YYYY-MM-DD HH:mm:ss'))
+                console.log("appointment start: " + appointmentStart.format('YYYY-MM-DD HH:mm:ss'))
                 if (currentTime.add(maxLength, 'hours').isBefore(appointmentStart)) {
-                    console.log("here")
                     openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() });
                     //slotAddedForDay = true;
+                    console.log("added here 1")
+                    console.log({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() })
                     count += 1
-                    console.log("added")
                     
                     if (count === numberOfEvents) {
                         slotsAddedForDay = true
@@ -104,12 +102,12 @@ export const getOpenSlots = async (from, till, events, userSid) => {
             if (!slotsAddedForDay) {
                 while (currentTime.add(maxLength, 'hours').isBefore(moment(currentDay).add(endOfDay.hour(), 'hours').add(endOfDay.minute(), 'minutes')) && openSlots.length < days) {
                     openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() });
-                    console.log("added 2 for tje bois")
+                    console.log("added here 2")
+                    console.log({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() })
                     count += 1
                     currentTime.add(maxLength, 'hours');
                     
                     if (count === numberOfEvents) {
-                        console.log("we up in this bitch")
                         slotsAddedForDay = true
                     };
 
@@ -123,7 +121,7 @@ export const getOpenSlots = async (from, till, events, userSid) => {
             console.log("current day:")
             console.log(currentDay)
         }
-        console.log(openSlots)
+        
         const availableSlots = openSlots.slice(0, days);  // Return the first 10 slots (or fewer if there aren't 10 available)
         console.log("available slots: " + availableSlots)
         let newEvents = []

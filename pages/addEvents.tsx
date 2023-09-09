@@ -4,9 +4,11 @@ import {  Button } from 'react-bootstrap'
 import { useSearchParams } from 'next/navigation';
 import './Popup.css';
 import { ClipLoader } from 'react-spinners'
-import Calendar from '../calendar'
+import Calendar from '../src/app/calendar/calendar'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
-export default function Home() {
+
+export default function AddEvents() {
     const [event, setEvent] = useState('');
     const [eventMap, setEventMap] = useState([]);
     const [viewEvents, setViewEvents] = useState(false)
@@ -16,7 +18,8 @@ export default function Home() {
     const [popupMessage, setPopupMessage] = useState('')
   
     const searchParams = useSearchParams()
-    const userSid = searchParams?.get('usersid')
+    const { user, error, isLoading } = useUser();
+    const userSid = user?.sid
     console.log(userSid)
 
     console.log(showLoadingComponent)
@@ -136,21 +139,8 @@ export default function Home() {
     
     <main className="flex font-mono min-h-screen flex-col  ">
       <br></br>
-      <h2>lifestyle edition</h2>
       <h2 className='text-center'>must input calendar settings before using eventflow</h2>
-       
-      <div style={{ display: 'flex', justifyContent: 'center',width: '100%', marginTop: '80px'  }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '200px' }}>
-                 <div><Calendar 
-                        currentCalendar={currentCalendar}
-                        userSid={userSid}
-                      />  
-                  </div>           
-        </div>
-
-        <div >
-        <br></br>
-        <br></br>
+        <br/>
         <form id="wantDo" onSubmit={handleAddEvents}>
                       <div className="flex items-center ">
                           <textarea 
@@ -194,12 +184,6 @@ export default function Home() {
               
                         
             </div>
-          )}
-        </div>
-       
-      </div> 
-      
+          )} 
     </main>
   )}
-
-    

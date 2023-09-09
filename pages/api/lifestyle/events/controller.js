@@ -11,7 +11,7 @@ export const setEvents = async (req, res) => {
         console.log("Check here")
         console.log(typeof eventsToAdd)
         if (eventsToAdd instanceof Error || typeof eventsToAdd == 'undefined') {
-            console.log("hi")
+            console.log("hi dude")
             res.status(500).json({
                 success: false,
                 message: "eventflow hallucinated",

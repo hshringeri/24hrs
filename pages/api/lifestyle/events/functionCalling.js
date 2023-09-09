@@ -1,5 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
 import {getCalendarData, getOpenSlots} from "./timeSlots.js"
+import moment from 'moment';
 
 const axios = require("axios");    // For making HTTP requests.
 
@@ -22,7 +23,7 @@ export async function addEvent(event, userSid) {
     twoWeeksFromNow.setDate(today.getDate() + 14);
 
     const formatDate = (date) => {
-    return date.toISOString();
+        return date.toISOString();
     };
     
     if (eventType ===  'errand/chore') {
@@ -31,7 +32,7 @@ export async function addEvent(event, userSid) {
         if (typeof events == Error) {
             return events
         }
-        const newEvents = getOpenSlots(formatDate(today), formatDate(twoWeeksFromNow), events, userSid)
+        const newEvents = getOpenSlots(moment(today).add(1, 'days').startOf('day').toISOString(), formatDate(twoWeeksFromNow), events, userSid)
         
         return newEvents;
         
@@ -43,7 +44,7 @@ export async function addEvent(event, userSid) {
         if (typeof events == Error) {
             return events
         }
-        const newEvents = getOpenSlots(formatDate(today), formatDate(twoWeeksFromNow), events, userSid)
+        const newEvents = getOpenSlots(moment(today).add(1, 'days').startOf('day').toISOString(), formatDate(twoWeeksFromNow), events, userSid)
         
         return newEvents;
         
@@ -56,7 +57,7 @@ export async function addEvent(event, userSid) {
             return events
         }
     
-        const newEvents = getOpenSlots(formatDate(today), formatDate(twoWeeksFromNow), events, userSid)
+        const newEvents = getOpenSlots(moment(today).add(1, 'days').startOf('day').toISOString(), formatDate(twoWeeksFromNow), events, userSid)
         
         return newEvents;
         
@@ -67,7 +68,17 @@ export async function addEvent(event, userSid) {
         if (events instanceof Error) {
             return events
         }
-        const newEvents = getOpenSlots(formatDate(today), formatDate(twoWeeksFromNow), events, userSid)
+        const newEvents = getOpenSlots(moment(today).add(1, 'days').startOf('day').toISOString(), formatDate(twoWeeksFromNow), events, userSid)
+        
+        return newEvents;
+        
+    }
+    if (eventType === 'homework') {
+        const events = await handleProjectEvent(event)
+        if (events instanceof Error) {
+            return events
+        }
+        const newEvents = getOpenSlots(moment(today).add(1, 'days').startOf('day').toISOString(), formatDate(twoWeeksFromNow), events, userSid)
         
         return newEvents;
         
@@ -180,9 +191,14 @@ async function handleSimpleEvent(event) {
                             days_per_week: {
                                 type: "integer",
                                 description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
+                            },
+                            time_of_day: {
+                                type: "string",
+                                description: "based on the content of the prompt, determine the best time of the day for the task/event.",
+                                enum: ["anytime", "morning", "afternoon", "evening"]  
                             }
                         },
-                        "required": ["event", "probable_duration", "days_per_week"]
+                        "required": ["event", "probable_duration", "days_per_week", "time_of_day"]
                     }
                 }
             ],
@@ -229,7 +245,7 @@ async function handleLearningEvent(event) {
                         properties: {
                             mediums: {
                                 type: "array",
-                                description: " Based on the content of the learning event, generate a list of distributed tasks to go about learning the topic.",
+                                description: " Based on the content of the learning event, generate a list of distributed and detailed stasks to go about learning the topic.",
                                 items: {
                                     type: "string"
                                 }
@@ -270,9 +286,14 @@ async function handleLearningEvent(event) {
                                 days_per_week: {
                                     type: "integer",
                                     description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
+                                },
+                                time_of_day: {
+                                    type: "string",
+                                    description: "based on the content of the prompt, determine the best time of the day for the task/event.",
+                                    enum: ["anytime", "morning", "afternoon", "evening"]  
                                 }
                             },
-                            "required": ["event", "probable_duration", "days_per_week"]
+                            "required": ["event", "probable_duration", "days_per_week", "time_of_day"]
                         }
                     }
                 ],
@@ -312,7 +333,7 @@ async function handleProjectEvent(event) {
                         properties: {
                             mediums: {
                                 type: "array",
-                                description: " Based on the content of the project, generate a list of detailed distributed tasks to go about the project.",
+                                description: " Based on the content of the project or assignment, generate a list of detailed distributed tasks to go about the project/assignment.",
                                 items: {
                                     type: "string"
                                 }
@@ -328,7 +349,8 @@ async function handleProjectEvent(event) {
         const mediums = JSON.parse(completionResponse).mediums
 
         const events = [];
-
+        console.log("mediums:")
+        console.log(mediums)
         for (const medium of mediums) {
             const prompt = event + ": " + medium;
 
@@ -338,13 +360,13 @@ async function handleProjectEvent(event) {
                 functions: [
                     {
                         name: "handleBrokenDownProjectEvents",
-                        description: "Create calendar events for errands or chores",
+                        description: "Create calendar events",
                         parameters: {
                             type: "object",
                             properties: {
                                 event: {
                                     type: "string",
-                                    description: "describe the task in a very detailed manner"
+                                    description: "describe the task"
                                 },
                                 probable_duration: {
                                     type: "string",
@@ -353,9 +375,14 @@ async function handleProjectEvent(event) {
                                 days_per_week: {
                                     type: "integer",
                                     description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
+                                },
+                                time_of_day: {
+                                    type: "string",
+                                    description: "based on the content of the prompt, determine the best time of the day for the task/event.",
+                                    enum: ["anytime", "morning", "afternoon", "evening"]  
                                 }
                             },
-                            "required": ["event", "probable_duration", "days_per_week"]
+                            "required": ["event", "probable_duration", "days_per_week", "time_of_day"]
                         }
                     }
                 ],
