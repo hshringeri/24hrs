@@ -53,8 +53,8 @@ export default function Home() {
             console.error("Error fetching calendar data:");
           }
         };
-        
-        fetchCalendar();      
+        if (userSid)
+          fetchCalendar();      
       }, [userSid]); 
 
    if (isLoading) console.log("loading");

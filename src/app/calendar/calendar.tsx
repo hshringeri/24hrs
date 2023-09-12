@@ -26,6 +26,7 @@ interface CalendarViewProps {
 
 const CalendarView: React.FC<CalendarViewProps> = ({ currentCalendar , userSid }) => {
   const [calendar, setCalendar] = useState([])
+  console.log(currentCalendar)
   console.log("calendar:")
 
   console.log(calendar)
