@@ -46,11 +46,14 @@ export default function AddEvents() {
           try {
             const errorData = await response.json();
             console.error('Error data:', errorData);
+            console.log(errorData.message)
             setPopupMessage(errorData.message)
           } catch (error) {
               console.error('Error parsing JSON:', error);
+              console.log(error)
+              
           }
-          console.log(response.text)
+          console.log(response)
           setShowPopup(true);
           setShowLoadingComponent(false)
           return
@@ -90,11 +93,17 @@ export default function AddEvents() {
 
     const Popup = () => {
       setShowLoadingComponent(false)
+      let errorMessage = ""
+      if (!popupMessage) {
+        errorMessage = "server timeout, vercel give me more time! my internet is weak :("
+      } else {
+        errorMessage = popupMessage
+      }
       return (
         
           <div id="popup1" className="overlay">
             <div className="popup">
-                <h2>{popupMessage}</h2>
+                <h2>{errorMessage}</h2>
                 <h2>Do you wish to let us use this failed command to improve the eventflow cognitive architecture?</h2>
             <div className="response-options">
                 <Button className="option" onClick={() =>setShowPopup(false)}>yes</Button>
