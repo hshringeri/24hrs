@@ -259,6 +259,8 @@ async function handleLearningEvent(event) {
 
         const completionResponse = completion.data.choices[0].message.function_call.arguments;
         const mediums = JSON.parse(completionResponse).mediums
+        console.log("mediums:")
+        console.log(mediums)
 
         const events = [];
 
@@ -271,7 +273,7 @@ async function handleLearningEvent(event) {
                 functions: [
                     {
                         name: "handleBrokenDownLearningEvents",
-                        description: "Create calendar events for errands or chores",
+                        description: "Create calendar events",
                         parameters: {
                             type: "object",
                             properties: {

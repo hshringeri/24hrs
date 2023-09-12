@@ -178,7 +178,7 @@ export default function AddEvents() {
             <div>
               {eventMap.map((event: any, index: number) => (
                 <div key={event.id || index} id="popup1">  {/* Use event.id if it exists, else fall back to the index */}
-                  <div className="popup" style={{ whiteSpace: 'nowrap', minWidth: '1000px', margin: 2, padding: 2 }}>
+                  <div className="popup" style={{ whiteSpace: 'nowrap', minWidth: '1500px', margin: 2, padding: 2 }}>
                     <h2 className='font mono'>
                       {event.title} on {(event.start).split('T')[0]} from {(event.start).split('T')[1]} to {(event.end).split('T')[1]}
                     </h2>

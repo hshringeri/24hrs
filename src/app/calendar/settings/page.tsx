@@ -66,7 +66,13 @@ export default function Settings() {
             <BsFillGearFill className="text-8xl"/>
         </div>
 
-       
+        <div>
+            <br></br>
+            <h1 className="text-center">
+                When inputing times, put them down in this format: eg. work hours: 9 am - 5 pm. (follow spacing and caps +  you need the dash)
+            </h1>
+        </div>
+
         <div className="flex flex-col items-center justify-center space-y-24"> {/* This sets the direction to column and space between items to 1rem */}
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <h1 className="flex-shrink-0 mr-4"> profession:</h1>
@@ -111,12 +117,7 @@ export default function Settings() {
             <Button onClick={onSubmit}>submit</Button> 
         </div>
 
-        <div className=" items-center justify-center h-screen">
-            <br></br>
-            <h1 className="text-center">
-                When inputing times, put them down in this format: eg. work hours: 9 am - 5 pm. (follow spacing and caps +  you need the dash)
-            </h1>
-        </div>
+        
 
 
     </div>
