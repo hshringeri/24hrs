@@ -9,7 +9,6 @@ export default function handler(req, res) {
             res.status(200).json({method, name: 'GET Request'})
              break
          case 'POST':
-            console.log("you aaaaa")
              const events = setEvents(req, res)
              if (typeof events === Error) {
                 res.status(500).json({method, name: 'eventflow hallucinated.'})

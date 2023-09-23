@@ -17,7 +17,6 @@ const configuration = new Configuration({
 
 export async function addEvent(event, userSid) {
     const eventType = await determineEventType(event)
-
     const today = new Date();
     const twoWeeksFromNow = new Date(today);
     twoWeeksFromNow.setDate(today.getDate() + 14);
@@ -226,7 +225,7 @@ async function handleLearningEvent(event) {
                         properties: {
                             mediums: {
                                 type: "array",
-                                description: " Based on the content of the learning event, generate a list of distributed and detailed stasks to go about learning the topic.",
+                                description: " Based on the content of the learning event, generate a list of 3 mediums to go about learning the topic.",
                                 items: {
                                     type: "string"
                                 }
@@ -314,7 +313,7 @@ async function handleProjectEvent(event) {
                         properties: {
                             mediums: {
                                 type: "array",
-                                description: " Based on the content of the project or assignment, generate a list of detailed distributed tasks to go about the project/assignment.",
+                                description: " Based on the content of the project or assignment, generate a list of 3 mediums to go about the project/assignment.",
                                 items: {
                                     type: "string"
                                 }

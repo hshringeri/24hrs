@@ -2,7 +2,6 @@ import { addEvent } from "./functionCalling"
 
 
 export const setEvents = async (req, res) => {
-    console.log(req.body)
     const events = req.body.events
     const userSid = req.body.userSid
     try {
@@ -23,6 +22,7 @@ export const setEvents = async (req, res) => {
             data: eventsToAdd,
             message: "Event added successfully."
         });
+        return
     } catch(error) {
         console.log("found")
         console.log(error)
