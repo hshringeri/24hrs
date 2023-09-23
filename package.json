@@ -28,6 +28,7 @@
     "langchain": "^0.0.116",
     "main.css": "link:@fullcalendar/core/main.css",
     "moment": "^2.29.4",
+    "moment-duration-format": "^2.3.2",
     "mongoose": "^7.4.3",
     "next": "13.4.12",
     "path": "^0.12.7",
