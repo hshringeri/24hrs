@@ -354,14 +354,16 @@ async function handleProjectEvent(event) {
                                 days_per_week: {
                                     type: "integer",
                                     description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
-                                },
-                                time_of_day: {
-                                    type: "string",
-                                    description: "based on the content of the prompt, determine the best time of the day for the task/event.",
-                                    enum: ["anytime", "morning", "afternoon", "evening"]  
                                 }
+                                    // },
+                                // time_of_day: {
+                                //     type: "string",
+                                //     description: "based on the content of the prompt, determine the best time of the day for the task/event.",
+                                //     enum: ["anytime", "morning", "afternoon", "evening"]  
+                                // }
                             },
-                            "required": ["event", "probable_duration", "days_per_week", "time_of_day"]
+                            //"required": ["event", "probable_duration", "days_per_week", "time_of_day"]
+                            "required": ["event", "probable_duration", "days_per_week"]
                         }
                     }
                 ],

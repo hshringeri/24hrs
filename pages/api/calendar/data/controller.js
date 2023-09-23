@@ -25,25 +25,17 @@ export const getCalendarData = async (req, res) => {
 }
 
 export const getCalendarDataWithUserSid = async (userSid) => {
-    console.log("hi gu")
-
-    console.log(userSid)
     
     if (!userSid) {
         return Error('userSid is required')
     }
 
     try {
-        console.log("HELLO")
-        await connectMongo()
+        //await connectMongo()
         const calendar = await Calendar.findOne({ userSid: userSid });
-        console.log("heel")
         if (!calendar) {
-            console.log("error here")
             return Error('Calendar not found for this userSid')
         }
-        console.log("calendar/////: ")
-        console.log(calendar.calendar)
         return calendar.calendar
     } catch (error) {
         return Error(error)
