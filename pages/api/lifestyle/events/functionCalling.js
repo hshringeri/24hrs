@@ -84,13 +84,14 @@ export async function addEvent(event, userSid) {
 
 async function determineEventType(event) {
     try {
+        console.log(":WE are here")
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [{"role": "user", "content": event}],
             functions: [
                 {
                     name: "determineEventType",
-                    description: "determine whether the event is an errand/chore or something else",
+                    description: "determine what type of event this task is",
                     parameters: {
                         type: "object",
                         properties: {
@@ -115,11 +116,14 @@ async function determineEventType(event) {
                                 description: "Is the event Homework?"
                             }
                         }
+                        
                     }
                 }
             ],
             function_call: "auto"
         })
+        console.log("why are ayou stallong")
+        console.log(completion.data.choices[0].message.function_call.arguments)
         const completionResponse = completion.data.choices[0].message.function_call.arguments;
 
         const isErrandOrChore = JSON.parse(completionResponse).isErrandOrChore
@@ -144,6 +148,7 @@ async function determineEventType(event) {
         if (isHomework) {
             return 'homework'
         }
+        
 
     } catch(err) {
         return Error(err)
@@ -267,13 +272,13 @@ async function handleLearningEvent(event) {
                                     type: "integer",
                                     description: "Based on the content of the user prompted event, determine how many days per week the user wants this task to be done."
                                 },
-                                time_of_day: {
-                                    type: "string",
-                                    description: "based on the content of the prompt, determine the best time of the day for the task/event.",
-                                    enum: ["anytime", "morning", "afternoon", "evening"]  
-                                }
+                                // time_of_day: {
+                                //     type: "string",
+                                //     description: "based on the content of the prompt, determine the best time of the day for the task/event.",
+                                //     enum: ["anytime", "morning", "afternoon", "evening"]  
+                                // }
                             },
-                            "required": ["event", "probable_duration", "days_per_week", "time_of_day"]
+                            "required": ["event", "probable_duration", "days_per_week"]
                         }
                     }
                 ],
