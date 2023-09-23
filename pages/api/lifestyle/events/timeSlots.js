@@ -10,8 +10,6 @@ export const getOpenSlots = async (from, till, events, userSid) => {
     try {
         const appointments = await getCalendarDataWithUserSid(userSid)
         const settings = await getSettings(userSid)
-        console.log("settings")
-        console.log(settings)
 
         const [endOfDayTime, startOfDayTime] = convertTo24HourFormat(settings.sleepHours)
         const [lunchStartTime, lunchEndTime] = convertTo24HourFormat(settings.lunchTime)
@@ -27,14 +25,10 @@ export const getOpenSlots = async (from, till, events, userSid) => {
         const dinnerEnd = moment(dinnerEndTime,"HH:mm:ss")
 
         const sortedAppointments = appointments.sort((a, b) => moment(a.start).diff(moment(b.start)));
-        console.log(sortedAppointments)
         
         let days = 0
         let maxLength = Number.NEGATIVE_INFINITY
         let numberOfEvents = 0
-
-        console.log("Events:")
-        console.log(events)
 
         for (let event of events) {
             numberOfEvents += 1
@@ -44,23 +38,20 @@ export const getOpenSlots = async (from, till, events, userSid) => {
             const durationType = durationList[1]
             if (durationType === 'minutes') {
                 durationNumber = durationNumber/60
-                console.log("duration in minutes: " + durationNumber)
             }
             maxLength = Math.max(maxLength, durationNumber)
 
         }
-        console.log("days: " + days)
-        console.log(maxLength)
+
         let currentDay = moment(from);
-        console.log("current day initially set: " + currentDay.format('YYYY-MM-DD HH:mm:ss'))
+
         let openSlots = [];
-        console.log(numberOfEvents)
-        console.log(till)
+
         while (currentDay.isBefore(moment(till))) {
             let count = 0
             let slotsAddedForDay = (count === numberOfEvents)
             let currentTime = moment(currentDay).add(startOfDay.hour(), 'hours').add(startOfDay.minute(), 'minutes');
-            console.log("current Time: " + currentTime.format('YYYY-MM-DD HH:mm:ss'))
+
             for (let i = 0; i < sortedAppointments.length && !slotsAddedForDay; i++) {
                 const appointmentStart = moment(sortedAppointments[i].start);
                 const appointmentEnd = moment(sortedAppointments[i].end);
@@ -69,13 +60,11 @@ export const getOpenSlots = async (from, till, events, userSid) => {
                     continue;  // Skip appointments that are not for the current day
                 }
                 
-                console.log("current time here: " + currentTime.format('YYYY-MM-DD HH:mm:ss'))
-                console.log("appointment start: " + appointmentStart.format('YYYY-MM-DD HH:mm:ss'))
+
                 if (currentTime.add(maxLength, 'hours').isBefore(appointmentStart)) {
                     openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() });
                     //slotAddedForDay = true;
-                    console.log("added here 1")
-                    console.log({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() })
+
                     count += 1
                     
                     if (count === numberOfEvents) {
@@ -86,7 +75,6 @@ export const getOpenSlots = async (from, till, events, userSid) => {
                     currentTime.add(maxLength, 'hours');
                     i--; // re-check against the same appointment after slot increment
                 } else {
-                    console.log("end")
                     currentTime = appointmentEnd;
                 }
                 // Skip lunch time and dinner time
@@ -102,8 +90,6 @@ export const getOpenSlots = async (from, till, events, userSid) => {
             if (!slotsAddedForDay) {
                 while (currentTime.add(maxLength, 'hours').isBefore(moment(currentDay).add(endOfDay.hour(), 'hours').add(endOfDay.minute(), 'minutes')) && openSlots.length < days) {
                     openSlots.push({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() });
-                    console.log("added here 2")
-                    console.log({ start: currentTime.format(), end: currentTime.clone().add(maxLength, 'hours').format() })
                     count += 1
                     currentTime.add(maxLength, 'hours');
                     
@@ -118,20 +104,17 @@ export const getOpenSlots = async (from, till, events, userSid) => {
             }
 
             currentDay.add(1, 'days');
-            console.log("current day:")
-            console.log(currentDay)
         }
         
         const availableSlots = openSlots.slice(0, days);  // Return the first 10 slots (or fewer if there aren't 10 available)
-        console.log("available slots: " + availableSlots)
+
         let newEvents = []
         let index = 0
         for (let i = 0; i < events.length; i++) {
             const eventName = events[i].event
             for (let j = 0; j < events[i].days_per_week; j++) {
                 const currIndex = index
-                console.log("Index:")
-                console.log(currIndex)
+
                 const currSlot = availableSlots[currIndex]
                 const start = currSlot.start
 
@@ -146,7 +129,7 @@ export const getOpenSlots = async (from, till, events, userSid) => {
                         start: start,
                         end: end
                     }
-                    console.log("new Event: " + newEvent)
+
                     newEvents.push(newEvent);
 
                 } else if (probableDurationParts[1] == "minutes") {
@@ -164,7 +147,6 @@ export const getOpenSlots = async (from, till, events, userSid) => {
 
             }
         }
-        console.log(newEvents)
          return newEvents
 
     } catch (error) {
@@ -180,9 +162,7 @@ function convertTo24HourFormat(timeString) {
   
     const convertSingleTime = (time) => {
       const [num, period] = time.split(' ');
-      console.log(num)
       let hour = parseInt(num, 10);
-      console.log(hour)
       if (period.toLowerCase() === 'pm' && hour !== 12) {
         hour += 12;
       }

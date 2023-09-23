@@ -43,8 +43,6 @@ export const getSettings = async (userSid) => {
 
         // Fetch the calendar based on userSid
         const foundCalendar = await Calendar.findOne({ userSid: userSid });
-        console.log("get settings")
-        console.log(foundCalendar.settings)
 
         if (!foundCalendar) {
             res.status(404).json({ message: "Calendar not found for the given userSid" });

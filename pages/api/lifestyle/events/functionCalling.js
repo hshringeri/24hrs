@@ -27,7 +27,6 @@ export async function addEvent(event, userSid) {
     };
     
     if (eventType ===  'errand/chore') {
-        console.log("1")
         const events = await handleSimpleEvent(event)
         if (typeof events == Error) {
             return events
@@ -38,9 +37,7 @@ export async function addEvent(event, userSid) {
         
     }
     if (eventType === 'project') {
-        console.log("2")
         const events = await handleProjectEvent(event)
-        console.log(events);
         if (typeof events == Error) {
             return events
         }
@@ -51,7 +48,6 @@ export async function addEvent(event, userSid) {
 
     }
     if (eventType === 'learning event') {
-        console.log("3")
         const events = await handleLearningEvent(event)
         if (typeof events == Error) {
             return events
@@ -125,7 +121,6 @@ async function determineEventType(event) {
             ],
             function_call: "auto"
         })
-        console.log(completion.data.choices[0].message)
         const completionResponse = completion.data.choices[0].message.function_call.arguments;
 
         const isErrandOrChore = JSON.parse(completionResponse).isErrandOrChore
@@ -136,28 +131,18 @@ async function determineEventType(event) {
 
 
         if (isErrandOrChore) {
-            console.log(event)
-            console.log('errand/chore')
             return 'errand/chore'
         }
         if (isAProject) {
-            console.log(event)
-            console.log('project')
             return 'project'
         }
         if (isALearningEvent) {
-            console.log(event)
-            console.log('learning event')
             return 'learning event'
         }
         if (isAnActivity) {
-            console.log(event)
-            console.log('activity')
             return 'activity'
         }
         if (isHomework) {
-            console.log(event)
-            console.log('homework')
             return 'homework'
         }
 
@@ -168,7 +153,6 @@ async function determineEventType(event) {
 
 async function handleSimpleEvent(event) {
     const events = []
-    console.log("did u make it here 1")
     try {
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
@@ -204,10 +188,8 @@ async function handleSimpleEvent(event) {
             ],
             function_call: "auto"
         })
-        console.log("did u make it here 2")
         try {
             const completionResponse = completion.data.choices[0].message.function_call.arguments;
-            console.log("did u make it here 3")
             events.push(JSON.parse(completionResponse))
         return events
         } catch(error) {
@@ -224,7 +206,6 @@ async function handleSimpleEvent(event) {
             console.log(error.message);
             console.log(messages);
           }
-          console.log("did u make it here")
           return Error(error)
         
     }
@@ -259,8 +240,6 @@ async function handleLearningEvent(event) {
 
         const completionResponse = completion.data.choices[0].message.function_call.arguments;
         const mediums = JSON.parse(completionResponse).mediums
-        console.log("mediums:")
-        console.log(mediums)
 
         const events = [];
 
@@ -351,8 +330,6 @@ async function handleProjectEvent(event) {
         const mediums = JSON.parse(completionResponse).mediums
 
         const events = [];
-        console.log("mediums:")
-        console.log(mediums)
         for (const medium of mediums) {
             const prompt = event + ": " + medium;
 
