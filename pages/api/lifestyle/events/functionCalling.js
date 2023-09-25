@@ -349,7 +349,7 @@ async function handleProjectEvent(event) {
                             properties: {
                                 event: {
                                     type: "string",
-                                    description: "describe the task"
+                                    description: "the content of the this prompt"
                                 },
                                 probable_duration: {
                                     type: "string",

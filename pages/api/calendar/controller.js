@@ -59,6 +59,7 @@ export const getCalendar = async (req, res) => {
               start: start,
               end: end
             }
+            console.log(calendarData)
             updatedCalendar.push(calendarData)
           });
           const upsertCalendar = await upsertUserCalendar(userSid, updatedCalendar)
@@ -103,6 +104,7 @@ export const upsertUserCalendar = async (userSid, updatedCalendar) => {
 };
 
 export const updateEvents = async (req, res) => {
+  console.log("whats up")
   const newEvents = req.body
   const userSid = req.query.userSid
 
