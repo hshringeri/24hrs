@@ -82,9 +82,10 @@ const CalendarView: React.FC<CalendarViewProps> = ({ currentCalendar , userSid }
     const eventList = []
     const newEvent = {
       title: title,
-      start: startTime,
-      end: endTime
+      start: utcToZonedTime(startTime, localTimeZone),
+      end: utcToZonedTime(endTime, localTimeZone)
     }
+    
     console.log(newEvent)
     eventList.push(newEvent)
     try {
