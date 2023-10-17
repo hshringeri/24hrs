@@ -122,7 +122,8 @@ export default function AddEvents() {
       const formattedEvents = eventMap.map((event: { title: any; start: any; end: any }) => ({
         title: event.title,
         start: event.start,
-        end: event.end
+        end: event.end,
+        description: ""
     }));
 
       try {

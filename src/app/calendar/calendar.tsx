@@ -9,6 +9,7 @@ import { utcToZonedTime } from 'date-fns-tz';
 import  moment  from 'moment'
 
 const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+console.log(localTimeZone)
 
 
 

@@ -147,6 +147,8 @@ export const getOpenSlots = async (from, till, events, userSid) => {
 
             }
         }
+
+        console.log(newEvents)
          return newEvents
 
     } catch (error) {

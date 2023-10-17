@@ -57,7 +57,8 @@ export const getCalendar = async (req, res) => {
             const calendarData = {
               title: title,
               start: start,
-              end: end
+              end: end,
+              description: ""
             }
             console.log(calendarData)
             updatedCalendar.push(calendarData)
@@ -104,7 +105,6 @@ export const upsertUserCalendar = async (userSid, updatedCalendar) => {
 };
 
 export const updateEvents = async (req, res) => {
-  console.log("whats up")
   const newEvents = req.body
   const userSid = req.query.userSid
 
@@ -117,7 +117,6 @@ export const updateEvents = async (req, res) => {
       );
     }
   } catch (error) {
-    console.log("WEEWEWEWEWGHERE")
     return Error(error.message)
   }
 

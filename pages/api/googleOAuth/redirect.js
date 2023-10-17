@@ -62,7 +62,8 @@ export default async function handler(req, res) {
             const calendarData = {
               title: title,
               start: start,
-              end: end
+              end: end,
+              description: ""
             }
             updatedCalendar.push(calendarData)
           });

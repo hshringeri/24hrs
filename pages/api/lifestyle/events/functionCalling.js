@@ -230,7 +230,7 @@ async function handleLearningEvent(event) {
                         properties: {
                             mediums: {
                                 type: "array",
-                                description: " Based on the content of the learning event, generate a list of 3 mediums to go about learning the topic.",
+                                description: " Based on the content of the learning event, generate a list of ways to go about learning the topic.",
                                 items: {
                                     type: "string"
                                 }
@@ -244,6 +244,7 @@ async function handleLearningEvent(event) {
 
         const completionResponse = completion.data.choices[0].message.function_call.arguments;
         const mediums = JSON.parse(completionResponse).mediums
+        console.log("mediums: " + mediums)
 
         const events = [];
 
@@ -318,7 +319,7 @@ async function handleProjectEvent(event) {
                         properties: {
                             mediums: {
                                 type: "array",
-                                description: " Based on the content of the project or assignment, generate a list of 3 mediums to go about the project/assignment.",
+                                description: " Based on the content of the project or assignment, generate a list of ways to go about the project/assignment.",
                                 items: {
                                     type: "string"
                                 }
