@@ -7,6 +7,7 @@ import './main.css'
 import { INITIAL_EVENTS, createEventId } from './event-utils'
 import { utcToZonedTime } from 'date-fns-tz';
 import  moment  from 'moment'
+import { start } from 'repl';
 
 const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 console.log(localTimeZone)
@@ -85,7 +86,8 @@ const CalendarView: React.FC<CalendarViewProps> = ({ currentCalendar , userSid }
       start: utcToZonedTime(startTime, localTimeZone),
       end: utcToZonedTime(endTime, localTimeZone)
     }
-    
+    console.log(startTime)
+    console.log(utcToZonedTime(startTime, localTimeZone))
     console.log(newEvent)
     eventList.push(newEvent)
     try {
