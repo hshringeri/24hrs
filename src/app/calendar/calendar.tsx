@@ -85,6 +85,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ currentCalendar , userSid }
       start: startTime,
       end: endTime
     }
+    console.log(newEvent)
     eventList.push(newEvent)
     try {
       const newCalendar = await fetch(`/api/calendar?userSid=${userSid}`, {
