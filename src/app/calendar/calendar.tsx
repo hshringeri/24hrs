@@ -10,9 +10,9 @@ import  moment  from 'moment'
 import { start } from 'repl';
 
 const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-console.log(localTimeZone)
 const today = new Date();
 console.log(today)
+console.log(localTimeZone + " " +  today)
 
 
 interface Event {
