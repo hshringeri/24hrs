@@ -11,7 +11,8 @@ import { start } from 'repl';
 
 const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 console.log(localTimeZone)
-
+const today = new Date();
+console.log(today)
 
 
 interface Event {
@@ -83,12 +84,9 @@ const CalendarView: React.FC<CalendarViewProps> = ({ currentCalendar , userSid }
     const eventList = []
     const newEvent = {
       title: title,
-      start: utcToZonedTime(startTime, localTimeZone),
-      end: utcToZonedTime(endTime, localTimeZone)
+      start: startTime,
+      end: startTime
     }
-    console.log(startTime)
-    console.log(utcToZonedTime(startTime, localTimeZone))
-    console.log(newEvent)
     eventList.push(newEvent)
     try {
       const newCalendar = await fetch(`/api/calendar?userSid=${userSid}`, {

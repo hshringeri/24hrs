@@ -56,6 +56,9 @@ dependencies:
   langchain:
     specifier: ^0.0.116
     version: 0.0.116(cohere-ai@6.2.2)(hnswlib-node@2.0.0)
+  luxon:
+    specifier: ^3.4.3
+    version: 3.4.3
   main.css:
     specifier: link:@fullcalendar/core/main.css
     version: link:@fullcalendar/core/main.css
@@ -2983,6 +2986,11 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /luxon@3.4.3:
+    resolution: {integrity: sha512-tFWBiv3h7z+T/tDaoxA8rqTxy1CHV6gHS//QdaH4pulbq/JuBSGgQspQQqcgnwdAx6pNI7cmvz5Sv/addzHmUg==}
+    engines: {node: '>=12'}
+    dev: false
 
   /md5@2.3.0:
     resolution: {integrity: sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==}

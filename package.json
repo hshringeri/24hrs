@@ -26,6 +26,7 @@
     "googleapis": "^122.0.0",
     "hnswlib-node": "^2.0.0",
     "langchain": "^0.0.116",
+    "luxon": "^3.4.3",
     "main.css": "link:@fullcalendar/core/main.css",
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",

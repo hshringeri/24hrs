@@ -18,6 +18,7 @@ const configuration = new Configuration({
 export async function addEvent(event, userSid) {
     const eventType = await determineEventType(event)
     const today = new Date();
+    console.log("Dateee: " + today)
     const twoWeeksFromNow = new Date(today);
     twoWeeksFromNow.setDate(today.getDate() + 14);
 
